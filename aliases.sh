@@ -126,12 +126,18 @@ alias mtr="mtr -t"
 alias nmap="nmap -v -v -T5"
 alias nmapp="nmap -P0 -A --osscan_limit"
 alias pktstat="sudo pktstat -tBFT"
+# List listening ports
+alias lports="sudo lsof -i -P -n | grep LISTEN"
 
 # Bashrc
 alias ebrc='code ~/.bashrc'
 alias srcb="source ~/.bashrc"
 alias src="source ~/.bashrc"
+alias sud='su dawsonmyers'
 
+# Docker
+alias dcc='docker-compose'
+alias dcch="dcc -f ${HOME}/Code/Development/Checkmate/Docker/high-avail.docker-compose.yml"
 # geo-cli
 ###############################################################################
 

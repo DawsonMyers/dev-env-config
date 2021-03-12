@@ -2,7 +2,7 @@
 # MYG-14784 Create Backend for Device Sharing => MYG-14784-create-backend-for-device-sharing
 mkbranch() {
     jira_name="$@"
-    local n=`echo "${jira_name:3}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed -e 's/-\+/-/g'`
+    local n=`echo "${jira_name:3}" | tr '[:upper:]' '[:lower:]' | sed -e 's/\W\+/-/g'`
     echo "MYG${n}"
     # copy to clipboard
     echo -n "MYG${n}" | xclip -selection c
@@ -12,7 +12,7 @@ alias mkbrc=mkbranch
 # Don't convert to lower case
 mkbranchc() {
     jira_name="$@"
-    local n=`echo "${jira_name:3}" | tr ' ' '-' | sed -e 's/-\+/-/g'`
+    local n=`echo "${jira_name:3}" | sed -e 's/\W\+/-/g'`
     echo "MYG${n}"
     # copy to clipboard
     echo -n "MYG${n}" | xclip -selection c
