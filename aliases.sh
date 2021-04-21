@@ -145,3 +145,4 @@ alias dcch="dcc -f ${HOME}/Code/Development/Checkmate/Docker/high-avail.docker-c
 
 alias ga='geo analyze'
 alias gar='geo analyze 5'
+alias gaa='geo analyze 0 3 4 5 6 7'
