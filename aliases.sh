@@ -119,6 +119,13 @@ alias gcb="git checkout -b"
 alias gpsf="git push -f"
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
+alias gcp='git cherry-pick'
+alias gcpa='git cherry-pick --abort'
+alias gcpc='git cherry-pick --continue'
+
+gprr() {
+    git pull --rebase origin release/$1
+}
 
 # Network
 alias n="netstat -np tcp"
