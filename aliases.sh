@@ -122,6 +122,7 @@ alias gra='git rebase --abort'
 alias gcp='git cherry-pick'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
+alias gca='git commit --amend --no-edit'
 
 gprr() {
     git pull --rebase origin release/$1
