@@ -27,7 +27,8 @@ NC='\e[0m' # No Color
 ###########
 
 # ls 
-alias ll='ls -l'
+
+alias ll='ls -lh' # long format (l) and human readable file sizes (h)
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -146,11 +147,18 @@ alias sud='su dawsonmyers'
 # Docker
 alias dcc='docker-compose'
 alias dcch="dcc -f ${HOME}/Code/Development/Checkmate/Docker/high-avail.docker-compose.yml"
+
 # geo-cli
 ###############################################################################
-
-# Run roslyn analyzer
-
+alias gd='geo db'
+alias gdp='geo db ps'
+alias gds='geo db start'
+alias gdr='geo db rm'
 alias ga='geo analyze'
+# Run roslyn analyzer
 alias gar='geo analyze 5'
-alias gaa='geo analyze 0 1 2 3 4 5 6 7'
+# Run all analyzers in batch mode
+alias gaab='geo analyze -b -a'
+# Run all analyzers
+alias gaa='geo analyze -a'
+# alias gaa='geo analyze 0 1 2 3 4 5 6 7'

@@ -19,50 +19,74 @@ mkbranchc() {
 }
 alias mkbrcc=mkbranchc
 
+KILLBEAR_BOOKER_DIR=/home/dawsonmyers/Code/killbear-booker
+
+# .bashrc functions
+###############################################################
+# Project ids (projId)  InstanceMax
+# 0: 'killbear-booker' 30
+# 1: 'killbear' 40
+# 2: 'killbear-booker2' 40
+# 3: 'kbooker3' 40
+# 4: 'killbear-booker4' 8
+
 # Killbear booker
 ###############################################################################
 proj_id() { # arg: projId
     local proj=''
     case $1 in
-        0)
-            proj='killbear-booker'
-            ;;
-        1)
-            proj='killbear'
-            ;;
-        2)
-            proj='killbear-booker2'
-            ;;
-        3)
-            proj='kbooker3'
-            ;;
-        4)
-            proj='killbear-booker4'
-            ;;
+    0)
+        proj='killbear-booker'
+        ;;
+    1)
+        proj='killbear'
+        ;;
+    2)
+        proj='killbear-booker2'
+        ;;
+    3)
+        proj='kbooker3'
+        ;;
+    4)
+        proj='killbear-booker4'
+        ;;
     esac
     echo -n $proj
 }
 
 # Killbear deploy
 kbd() { # arg: projId
-    cd /home/dawsonmyers/repos/killbear-booker
-    local proj=`proj_id $1`
-    gcloud app deploy --project=$proj --stop-previous-version && gcloud app logs tail -s default --project=$proj
+    (
+        cd $KILLBEAR_BOOKER_DIR
+        local proj=$(proj_id $1)
+        gcloud app deploy --project=$proj --stop-previous-version && gcloud app logs tail -s default --project=$proj
+    )
+
 }
 
 # Killbear log
 kbl() { # arg: projId
-    cd /home/dawsonmyers/repos/killbear-booker
-    local proj=`proj_id $1`
-    gcloud app logs tail -s default --project=$proj
+    (
+        cd $KILLBEAR_BOOKER_DIR
+        local proj=$(proj_id $1)
+        gcloud app logs tail -s default --project=$proj
+    )
+
 }
 
 # Killbear stop
 kbs() { # args: (projId, version)
-    cd /home/dawsonmyers/repos/killbear-booker
-    local proj=`proj_id $1`
-    gcloud app versions stop --project=$proj $2
+    (
+        cd $KILLBEAR_BOOKER_DIR
+        local proj=$(proj_id $1)
+        gcloud app versions stop --project=$proj $2
+    )
+
 }
+
+if [[ -d $KILLBEAR_BOOKER_DIR ]]; then
+    source $KILLBEAR_BOOKER_DIR/bashrc-gcp-funcs.sh
+fi
 
 # Extracting
 extract () {
@@ -91,7 +115,7 @@ extract () {
 # analyze() {
 #     MYG_TEST_PROJ=Checkmate/MyGeotab.Core.Tests/MyGeotab.Core.Tests.csproj
 #     MYG_CORE_PROJ=Checkmate/MyGeotab.Core.csproj
-#     pushd ~/repos/MyGeotab
+#     pushd ~/Code/MyGeotab
 #     run_analyzer StyleCop.Analyzers $MYG_CORE_PROJ
 #     run_analyzer Roslynator.Analyzers $MYG_TEST_PROJ
 #     popd
