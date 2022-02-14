@@ -21,6 +21,7 @@ LIGHTPURPLE='\e[1;35m'
 YELLOW='\e[1;33m'
 WHITE='\e[1;37m'
 NC='\e[0m' # No Color
+BBLUE="\033[1;34m"
 
 ###########
 # Aliases #
@@ -115,7 +116,7 @@ alias gsui="git submodule update --init"
 alias gsur="git submodule update --recursive"
 alias gsuir="git submodule update --init --recursive"
 alias gpr="git pull --rebase origin"
-alias gprm="git pull --rebase origin master"
+alias gprm="git pull --rebase origin main"
 alias gcb="git checkout -b"
 alias gpsf="git push -f"
 alias grc='git rebase --continue'
@@ -162,3 +163,6 @@ alias gaab='geo analyze -b -a'
 # Run all analyzers
 alias gaa='geo analyze -a'
 # alias gaa='geo analyze 0 1 2 3 4 5 6 7'
+
+# C#
+alias csr='csharprepl'
