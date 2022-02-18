@@ -121,9 +121,11 @@ alias gcb="git checkout -b"
 alias gpsf="git push -f"
 alias grc='git rebase --continue'
 alias gra='git rebase --abort'
+alias grs='git rebase --skip'
 alias gcp='git cherry-pick'
 alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
+alias gcps='git cherry-pick --skip'
 alias gca='git commit --amend --no-edit'
 alias gcl='git clean -xfd'
 
