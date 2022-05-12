@@ -1,3 +1,5 @@
+export MYG_DIR="${HOME}/Code/Development"
+
 ######################
 # CUSTOM STARTS HERE #
 ######################
@@ -169,3 +171,6 @@ alias gaa='geo analyze -a'
 
 # C#
 alias csr='csharprepl'
+
+# MyGeotab
+alias buildall="dotnet build -c Release -m:1 ${MYG_DIR}/All.sln"

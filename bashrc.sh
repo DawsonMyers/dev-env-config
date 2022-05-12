@@ -1,5 +1,6 @@
 
 export DEV_CONFIG_DIR="$HOME/dev-env-config"
+export MYG_DIR="${HOME}/Code/Development"
 
 # Shource this file in .bashrc
 . $DEV_CONFIG_DIR/aliases.sh
