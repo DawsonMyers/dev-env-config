@@ -95,7 +95,7 @@ alias root='/usr/local/packages/aime/ias/run_as_root "su root"'
 ## Applications
 alias cal="cal -m -3"
 # Copy to clipboard.
-alias xclip="xclip -selection c"
+alias xclips="xclip -selection c"
 
 ## Git
 alias git="nice git"
