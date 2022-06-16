@@ -52,3 +52,6 @@ running_geo_cli_container() {
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h${NC}:${BBLUE}\w${NC}\n${RED}\$${NC} '
 # This is the standard prompt
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# https://docstore.mik.ua/orelly/unix3/upt/ch31_05.htm
+CDPATH=:~/Code
