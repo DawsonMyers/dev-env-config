@@ -55,3 +55,7 @@ running_geo_cli_container() {
 
 # https://docstore.mik.ua/orelly/unix3/upt/ch31_05.htm
 CDPATH=:~/Code
+
+# Allows for typing the start of a command, for example gcloud then using the up and down arrows to cycle through your history for matching commands
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
