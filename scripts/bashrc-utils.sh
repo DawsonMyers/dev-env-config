@@ -127,3 +127,10 @@ extract () {
 #     dotnet build -p:DebugAnalyzers=${ANALYZER_NAME} -p:TreatWarningsAsErrors=false ${ANALYZER_PROJ} | tee analyzerOutput.txt
 # }
 
+#  Counts the lines of code in all files in this directory and subdirectories.
+#  parameters:
+#     1: the file type extension to count lines of code for (e.g., py, cs, sh, etc.)
+loc() {
+    local file_type=$1
+    find . -name '*'$file_type | xargs wc -l
+}

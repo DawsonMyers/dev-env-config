@@ -1,4 +1,4 @@
-# Colours for prompts have to be inside of \[COLOR\] escape sequences or the prompt line with overwrite itself
+# Colours for prompts have to be inside of \[COLOR\] escape sequences or the prompt line with overwrite itself.
 
 # Reset
 Color_Off="\[\033[0m\]"       # Text Reset
