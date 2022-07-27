@@ -54,7 +54,8 @@ running_geo_cli_container() {
 # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # https://docstore.mik.ua/orelly/unix3/upt/ch31_05.htm
-CDPATH=:~/Code
+[[ -d ~/Code ]] && CDPATH=:~/Code
+[[ -d ~/repos ]] && CDPATH=:~/repos
 
 # Allows for typing the start of a command, for example gcloud then using the up and down arrows to cycle through your history for matching commands
 bind '"\e[A": history-search-backward'
