@@ -27,3 +27,5 @@ sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.bashrc
 
 # Re-source .bashrc
 . ~/.bashrc
+
+echo Done
