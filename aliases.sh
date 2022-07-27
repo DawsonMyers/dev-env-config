@@ -1,4 +1,4 @@
-export MYG_DIR="${HOME}/Code/Development"
+export MYG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/Development"
 
 ######################
 # CUSTOM STARTS HERE #
