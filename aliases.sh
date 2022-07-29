@@ -99,8 +99,8 @@ alias xclips="xclip -selection c"
 
 ## Git
 alias git="nice git"
-alias gsh="git stash"
-alias gst="git status --short --branch"
+alias gst="git stash"
+alias gsta="git status --short --branch"
 #alias gsu="git submodule update --recursive --merge"
 alias gdf="git diff"
 alias gdt="git difftool"
