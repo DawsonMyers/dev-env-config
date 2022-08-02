@@ -1,0 +1,3 @@
+# Setup guid: https://docs.google.com/document/d/13TbaF2icEWqtxg1altUbI0Jn18KxoSPb9eKvKuxcxHg/edit#
+export GITLAB_PACKAGE_REGISTRY_USERNAME='dawsonmyers'
+export GITLAB_PACKAGE_REGISTRY_PASSWORD='fill_in'

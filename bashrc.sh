@@ -59,5 +59,8 @@ running_geo_cli_container() {
 [[ -d ~/repos ]] && CDPATH=:~/repos
 
 # Allows for typing the start of a command, for example gcloud then using the up and down arrows to cycle through your history for matching commands
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
+# bind '"\e[A": history-search-backward'
+# bind '"\e[B": history-search-forward'
+
+# Add GitLab PAT environment variables.
+[[ -f $DEV_CONFIG_DIR/include/gitlab/gitlab-pat ]] && . $DEV_CONFIG_DIR/include/gitlab/gitlab-pat
