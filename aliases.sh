@@ -181,3 +181,5 @@ alias csr='csharprepl'
 
 # MyGeotab
 alias buildall="dotnet build -c Release -m:1 ${MYG_DIR}/All.sln"
+
+alias sconf="code ~/GEOTAB/Checkmate/server.config"

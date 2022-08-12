@@ -64,3 +64,10 @@ running_geo_cli_container() {
 
 # Add GitLab PAT environment variables.
 [[ -f $DEV_CONFIG_DIR/include/gitlab/gitlab-pat ]] && . $DEV_CONFIG_DIR/include/gitlab/gitlab-pat
+
+gcor() {
+    (
+        geo cd dev
+        git checkout release/$1.0
+    )
+}
