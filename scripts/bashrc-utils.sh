@@ -134,3 +134,25 @@ loc() {
     local file_type=$1
     find . -name '*'$file_type | xargs wc -l
 }
+
+# Run this to fix symlinks after changing the nvm node version. This is required when running in non-interactive terminials,
+# since they don't have the same path variables available.
+setup-node-links() {
+    # set -eEB
+
+    if [ -L /usr/bin/node ]; then
+        sudo rm -f /usr/bin/node
+    fi
+
+    if [ -L /usr/bin/npm ]; then
+        sudo rm -f /usr/bin/npm
+    fi
+
+    if [ -L /usr/bin/npx ]; then
+        sudo rm -f /usr/bin/npx
+    fi
+
+    sudo ln -s "$(which node)" /usr/bin/
+    sudo ln -s "$(which npm)" /usr/bin/
+    sudo ln -s "$(which npx)" /usr/bin/
+}
