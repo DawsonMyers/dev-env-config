@@ -22,6 +22,15 @@ if [[ ! -e ~/.nvm ]]; then
 EOF
 fi
 
+if ! type csharprepl > /dev/null; then
+	echo "Installing csharprepl"
+	if ! type dotnet > /dev/null; then
+		echo "ERROR: dotnet command not installed"
+	else
+		dotnet tool install -g csharprepl
+	fi
+fi
+
 export DEV_ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Install packages. Skip install using the -s option.
@@ -49,12 +58,12 @@ sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.bashrc
 EOF
 # fi
 
-if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then
-	cp $DEV_ENV_DIR/include/gitlab/gitlab-pat-example $DEV_ENV_DIR/include/gitlab/gitlab-pat
-	echo
-	echo "Add gitlab PAT to $DEV_ENV_DIR/include/gitlab/gitlab-pat"
-	echo
-fi
+# if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then
+# 	cp $DEV_ENV_DIR/include/gitlab/gitlab-pat-example $DEV_ENV_DIR/include/gitlab/gitlab-pat
+# 	echo
+# 	echo "Add gitlab PAT to $DEV_ENV_DIR/include/gitlab/gitlab-pat"
+# 	echo
+# fi
 
 # Re-source .bashrc
 . ~/.bashrc
