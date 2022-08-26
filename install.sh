@@ -1,5 +1,25 @@
 if [[ ! -e ~/.bash-git-prompt ]]; then
+	echo "Installing bash-git-prompt"
 	git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+fi
+
+if [[ ! -e ~/.nvm ]]; then
+	echo "Installing NVM"
+	export NVM_DIR="$HOME/.nvm" && (
+		git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+		cd "$NVM_DIR"
+		git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+	) && \. "$NVM_DIR/nvm.sh"
+	# Remove content starting at "#nvm-start" and ending at "#nvm-end" comments.
+	sed -i '/#nvm-start/,/#nvm-end/d' ~/.bashrc
+	cat <<-'EOF' >> ~/.bash
+
+	#nvm-start
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	#nvm-end
+EOF
 fi
 
 export DEV_ENV_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,7 +46,7 @@ sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.bashrc
 	. "$DEV_ENV_DIR/bashrc.sh"
 	#######################################
 	#dev-env-config-end
-	EOF
+EOF
 # fi
 
 if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then
