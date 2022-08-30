@@ -85,16 +85,18 @@ Host='\h'
 
 PROMPT_COMMAND_OK="${Green}✔"    # indicator if the last command returned with an exit code of 0
 PROMPT_COMMAND_FAIL="${Red}✘"    # indicator if the last command returned with an exit code of other than 0
-_dev_env_get_command_status() {
-    local ret_code=$?
 
-    [[ $ret_code == 0 ]] && echo $PROMPT_COMMAND_OK || echo $PROMPT_COMMAND_FAIL
-}
+# Add our prompt command after git-prompt commands.
+[[ ! $PROMPT_COMMAND =~ __prompt_command ]] && PROMPT_COMMAND+=';__prompt_command'
 
-PROMPT_COMMAND=__prompt_command    # Function to generate PS1 after CMDs
+# PROMPT_COMMAND=__prompt_command    # Function to generate PS1 after CMDs
 
 # This command runs after each terminal command execution to recreate the prompt.
 __prompt_command() {
-    PS1="$(_dev_env_get_command_status) ${debian_chroot:+($debian_chroot)}"
-    PS1+="${BGreen}${User}@${Host}${Color_Off}:${BBlue}${PathShort}${Color_Off}${NewLine}${Red}\$${Color_Off} "
+    # echo "__prompt_command RET = $GIT_PROMPT_LAST_COMMAND_STATE"
+    [[ `we_are_on_repo` == 1 ]] && return
+    local status=
+    [[ $GIT_PROMPT_LAST_COMMAND_STATE == 0 ]] && status=$PROMPT_COMMAND_OK || status=$PROMPT_COMMAND_FAIL
+    PS1="$status ${debian_chroot:+($debian_chroot)}"
+    PS1+="${BGreen}${User}@${Host}${Color_Off}:${BBlue}${PathShort}${Color_Off}\n${Red}\$${Color_Off} "
 }

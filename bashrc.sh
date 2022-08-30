@@ -8,12 +8,6 @@ export MYG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/Developme
 . $DEV_CONFIG_DIR/scripts/bashrc-utils.sh
 
 
-# Bash prompt
-# Have to run install.sh first
-if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-    GIT_PROMPT_ONLY_IN_REPO=1
-    source $HOME/.bash-git-prompt/gitprompt.sh
-fi
 
 running_geo_cli_container() {
     name=$(docker ps --format '{{ .Names }}')
@@ -21,7 +15,15 @@ running_geo_cli_container() {
     [[ -n $name ]] && echo "[$name]"
 }
 
+# Bash prompt
+# Have to run install.sh first
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
+fi
+
 . $DEV_CONFIG_DIR/prompt.sh
+
 
 # Set default shell prompt. This is just the standard Ubuntu prompt, but with the $ starting on the next line and colourd red.
 # The only difference is that the '\$' suffix is replaced with '\n\e[0;31m\$\e[m' to add a new line and colour.
