@@ -83,5 +83,18 @@ Jobs="\j"
 User='\u'
 Host='\h'
 
-PS1="${debian_chroot:+($debian_chroot)}"
-PS1+="${BGreen}${User}@${Host}${Color_Off}:${BBlue}${PathShort}${Color_Off}${NewLine}${Red}\$${Color_Off} "
+PROMPT_COMMAND_OK="${Green}✔"    # indicator if the last command returned with an exit code of 0
+PROMPT_COMMAND_FAIL="${Red}✘"    # indicator if the last command returned with an exit code of other than 0
+_dev_env_get_command_status() {
+    local ret_code=$?
+
+    [[ $ret_code == 0 ]] && echo $PROMPT_COMMAND_OK || echo $PROMPT_COMMAND_FAIL
+}
+
+PROMPT_COMMAND=__prompt_command    # Function to generate PS1 after CMDs
+
+# This command runs after each terminal command execution to recreate the prompt.
+__prompt_command() {
+    PS1="$(_dev_env_get_command_status) ${debian_chroot:+($debian_chroot)}"
+    PS1+="${BGreen}${User}@${Host}${Color_Off}:${BBlue}${PathShort}${Color_Off}${NewLine}${Red}\$${Color_Off} "
+}
