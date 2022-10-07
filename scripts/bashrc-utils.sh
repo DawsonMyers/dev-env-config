@@ -161,3 +161,10 @@ geo-ui-pic() {
     # -s=X,Y,W,H
     shutter -e -d=3 -s=2270,28,288,771
 }
+
+search() {
+    local extension=
+    [[ $1 == -e ]] && extension="--include=*.$2" $$ shift 2
+
+    egrep -ir $extension "$1" .
+}

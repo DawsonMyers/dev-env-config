@@ -171,9 +171,9 @@ alias ga='geo analyze'
 # Run roslyn analyzer
 alias gar='geo analyze 5'
 # Run all analyzers in batch mode
-alias gaab='geo analyze -b -a'
-# Run all analyzers
-alias gaa='geo analyze -a'
+alias gaab='geo analyze -bas'
+# Run all analyzers, skip (-s) long running analyzers
+alias gaa='geo analyze -as'
 # alias gaa='geo analyze 0 1 2 3 4 5 6 7'
 
 # C#

@@ -9,10 +9,10 @@ if [[ ! -e ~/.nvm ]]; then
 		git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
 		cd "$NVM_DIR"
 		git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
-	) && \. "$NVM_DIR/nvm.sh"
+	) && . "$NVM_DIR/nvm.sh"
 	# Remove content starting at "#nvm-start" and ending at "#nvm-end" comments.
 	sed -i '/#nvm-start/,/#nvm-end/d' ~/.bashrc
-	cat <<-'EOF' >> ~/.bash
+	cat <<-'EOF' >> ~/.bashrc
 
 	#nvm-start
 	export NVM_DIR="$HOME/.nvm"
@@ -39,6 +39,13 @@ if [[ $1 == -s ]]; then
 else
 	$DEV_ENV_DIR/scripts/install-packages.sh
 fi
+
+# Show seconds on system clock.
+gsettings set org.gnome.desktop.interface clock-show-seconds true
+
+# Set autoSetupRemote to true so that new branches can be pushed with just git push
+# instead of git push -u
+git config --global push.autoSetupRemote true
 
 # Remove content starting at "#geo-cli-start" and ending
 # at "#geo-cli-end" comments.
