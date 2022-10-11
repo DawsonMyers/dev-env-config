@@ -15,4 +15,11 @@ if [[ $TICKET == "[]" || "$MESSAGE" == "$TICKET"* ]];then
   exit 0;
 fi
 
+# Check to see if the commit message already has an issue id (e.g. [MYG-40000] Add test).
+RE='^\[.*\] .*'
+if [[ $MESSAGE =~ $RE ]]; then
+  # If so, remove the tag.
+  MESSAGE="${MESSAGE##*MYG-*]}"
+fi
+
 echo "$TICKET $MESSAGE" > $FILE
