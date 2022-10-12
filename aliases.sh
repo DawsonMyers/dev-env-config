@@ -139,7 +139,10 @@ alias gca='git commit --amend --no-edit'
 alias gcl='git clean -xfd'
 
 gprr() {
-    git pull --rebase origin release/$1
+    local version="$1"
+    # Add the .0 suffix to the version if it is missing (e.g. 8 => 8.0);
+    [[ ! $version =~ \.0$ ]] && version+='.0'
+    git pull --rebase origin release/$version
 }
 
 # Network

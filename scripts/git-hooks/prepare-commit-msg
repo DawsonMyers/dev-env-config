@@ -19,7 +19,7 @@ fi
 RE='^\[.*\] .*'
 if [[ $MESSAGE =~ $RE ]]; then
   # If so, remove the tag.
-  MESSAGE="${MESSAGE##*MYG-*]}"
+  MESSAGE="${MESSAGE##*MYG-*] }"
 fi
 
 echo "$TICKET $MESSAGE" > $FILE
