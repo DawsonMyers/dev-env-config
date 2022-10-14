@@ -63,6 +63,15 @@ sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.bashrc
 	#######################################
 	#dev-env-config-end
 EOF
+
+# Set VSCode as the default editor for text files.
+bash xdg-mime default code.desktop text/plain
+# Changes will take effect after a reboot/re-log
+defaults_file=/usr/share/applications/defaults.list
+sudo sed 's_text/xml=org.gnome.gedit.desktop;google-chrome.desktop_text/xml=code.desktop_g' $defaults_file
+sudo sed 's_text/html=firefox.desktop;google-chrome.desktop_text/html=code.desktop_g' $defaults_file
+sudo sed 's_org.gnome.gedit.desktop_code.desktop_g' $defaults_file
+
 # fi
 
 # if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then
