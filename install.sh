@@ -72,6 +72,11 @@ sudo sed 's_text/xml=org.gnome.gedit.desktop;google-chrome.desktop_text/xml=code
 sudo sed 's_text/html=firefox.desktop;google-chrome.desktop_text/html=code.desktop_g' $defaults_file
 sudo sed 's_org.gnome.gedit.desktop_code.desktop_g' $defaults_file
 
+# Install Peek screen to gif recorder.
+sudo add-apt-repository ppa:peek-developers/stable
+sudo apt update
+sudo apt install peek
+
 # fi
 
 # if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then

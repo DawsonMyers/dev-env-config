@@ -160,6 +160,7 @@ setup-node-links() {
 geo-ui-pic() {
     # -s=X,Y,W,H
     shutter -e -d=3 -s=2270,28,288,771
+    # shutter -e -d=3 -s=2200,28,288,771
 }
 
 search() {

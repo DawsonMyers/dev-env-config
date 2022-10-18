@@ -83,8 +83,8 @@ Jobs="\j"
 User='\u'
 Host='\h'
 
-PROMPT_COMMAND_OK="${Green}✔"    # indicator if the last command returned with an exit code of 0
-PROMPT_COMMAND_FAIL="${Red}✘"    # indicator if the last command returned with an exit code of other than 0
+PROMPT_COMMAND_OK="${Green}✔${Color_Off}"    # indicator if the last command returned with an exit code of 0
+PROMPT_COMMAND_FAIL="${Red}✘${Color_Off}"    # indicator if the last command returned with an exit code of other than 0
 
 # Add our prompt command after git-prompt commands.
 [[ ! $PROMPT_COMMAND =~ __prompt_command ]] && PROMPT_COMMAND+=';__prompt_command'
@@ -98,5 +98,6 @@ __prompt_command() {
     local status=
     [[ $GIT_PROMPT_LAST_COMMAND_STATE == 0 ]] && status=$PROMPT_COMMAND_OK || status=$PROMPT_COMMAND_FAIL
     PS1="$status ${debian_chroot:+($debian_chroot)}"
-    PS1+="${BGreen}${User}@${Host}${Color_Off}:${BBlue}${PathShort}${Color_Off}\n${Red}\$${Color_Off} "
+    # The \n must be in between the color on and color off characters, otherwise it will overwrite the line.
+    PS1+="${BGreen}${User}${Color_Off}:${BBlue}${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
 }
