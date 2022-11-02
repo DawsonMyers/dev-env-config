@@ -77,6 +77,10 @@ sudo add-apt-repository ppa:peek-developers/stable
 sudo apt update
 sudo apt install peek
 
+# Set default sort order for files in explorer.
+gsettings set org.gnome.nautilus.preferences default-sort-order 'mtime'
+gsettings set org.gnome.nautilus.preferences default-sort-in-reverse-order true
+
 # fi
 
 # if [[ ! -f $DEV_ENV_DIR/include/gitlab/gitlab-pat ]]; then

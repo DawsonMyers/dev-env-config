@@ -163,9 +163,25 @@ geo-ui-pic() {
     # shutter -e -d=3 -s=2200,28,288,771
 }
 
+geo-ui-pic1() {
+    # -s=X,Y,W,H
+    shutter -e -d=3 -s=2232,2,325,920
+    # shutter -e -d=3 -s=2200,28,288,771
+}
+
 search() {
     local extension=
     [[ $1 == -e ]] && extension="--include=*.$2" $$ shift 2
 
     egrep -ir $extension "$1" .
+}
+
+# Hex to decimal
+h2d () {
+    printf '%d' $((16#$1))
+}
+
+# Decimal to hex
+d2h () {
+    printf '%x' $((10#$1))
 }
