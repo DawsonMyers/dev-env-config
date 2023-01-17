@@ -185,3 +185,12 @@ h2d () {
 d2h () {
     printf '%x' $((10#$1))
 }
+
+# cd into directory, creating it first if it doesn't exist.
+cdmk() {
+    local path="$1"
+    # local root_path="$(pwd)"
+    # [[ -n $root_path ]] && $root_path="$root_path/"
+    [[ ! -d $path ]] && mkdir -p "$path" && echo "Directory created at '$path'"
+    cd "$path"
+}

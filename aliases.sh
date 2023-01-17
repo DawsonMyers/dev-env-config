@@ -50,7 +50,7 @@ alias remove='sudo apt-get remove'
 alias purge='sudo apt-get remove --purge'
 alias update='sudo apt-get update'
 alias clean='sudo apt-get autoclean && sudo apt-get autoremove'
-alias sources='(gksudo geany /etc/apt/sources.list &)'
+alias sources='(gksudo code /etc/apt/sources.list &)'
 
 # chmod and permissions commands
 alias mx='chmod a+x'
@@ -63,7 +63,7 @@ alias a='alias'
 alias c='clear'
 alias h='htop'
 alias x='exit'
-alias bg='geany ~/.bashrc'
+alias bg='code ~/.bashrc'
 alias pci='lspci'
 alias ksf='killall swiftfox-bin'
 alias del='rm --target-directory=$HOME/.Trash/'
@@ -121,6 +121,7 @@ alias gsu="git submodule update"
 alias gsui="git submodule update --init"
 alias gsur="git submodule update --recursive"
 alias gsuir="git submodule update --init --recursive"
+alias gsure="git submodule update --remote"
 alias gpr="git pull --rebase origin"
 alias gprm="git pull --rebase origin main"
 alias gcb="git checkout -b"
@@ -140,8 +141,12 @@ alias gcl='git clean -xfd'
 
 gprr() {
     local version="$1"
+    [[ -z $version ]] && version=$(geo --raw-output dev release)
+    [[ -z $version ]] && echo 'Error: no version specified' && return
+
     # Add the .0 suffix to the version if it is missing (e.g. 8 => 8.0);
     [[ ! $version =~ \.0$ ]] && version+='.0'
+    echo "git pull --rebase origin release/$version"
     git pull --rebase origin release/$version
 }
 
