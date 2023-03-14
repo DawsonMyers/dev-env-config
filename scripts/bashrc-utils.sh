@@ -199,3 +199,166 @@ update_vs_code() {
     wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/code_latest_amd64.deb
     sudo dpkg -i /tmp/code_latest_amd64.deb
 }
+
+update_chrome() {
+    sudo apt-get update
+    sudo apt-get --only-upgrade install google-chrome-stable
+}
+
+# Echo variables
+evar() {
+    local print_on_newline=false
+    local add_label=true
+    [[ $1 == -n ]] && print_on_newline=true && shift
+    [[ $1 == --label ]] && add_label=true && shift
+    [[ $1 == --re ]] && print_array BASH_REMATCH && return
+    # echo "$# $@"x
+    if (( $# > 1 )); then
+        for arg in "$@"; do
+            evar --label "$arg"
+        done
+        return
+    fi
+
+    ! is_var $1 && echo "value: '$1'"
+    # ! is_var $1 && echo "'$1' is a value, not a variable"
+
+    # echo "$# 1: $1"
+
+    while is_var $1; do
+        local name=$1
+        local -n var=$1
+        local vartype=$(typeof $1)
+        # echo vartype $vartype
+        # if [[ $vartype == array ]] && echo "${var[@]}" || echo "$var"
+        case $vartype in
+            array )
+                local count=${#var}
+                $add_label && echo "$name[$count]"
+                local i=0
+                for item in "${var[@]}"; do
+                    $add_label && echo "  [$((i++))] = $item" || echo "$item"
+                done
+                ;;
+            map )
+                local count=${#var}
+                $add_label && echo "$name{$count}"
+                for key in "${!var[@]}"; do
+                    $add_label && echo "  $name[$key] = ${var[$key]}" || echo "${var[$key]}"
+                done
+                ;;
+            string | * )
+                $add_label && echo "$name: $var" || echo "$var"
+                ;;
+            * ) echo "type of '$name' is unknown/none" ;;
+        esac
+        shift
+    done
+}
+
+ere() {
+    [[ -z $1 ]] && print_array BASH_REMATCH && return
+    # local array=("${BASH_REMATCH[@]}")
+    while [[ -n $1 ]]; do
+        echo "BASH_REMATCH[$1] = ${BASH_REMATCH[$1]}"
+        shift;
+    done
+    # BASH_REMATCH=("${array[@]}")
+}
+
+dev_pre_re=
+
+re() {
+    set -x
+    local str="$1"
+    local regex="${2:-$dev_pre_re}"
+    [[ -z $str ]] && return 1
+    # Reuse previous regex.
+    # [[ -z $regex && -n $dev_pre_re ]] && regex="$dev_pre_re"
+
+    log::debug "[[ $str =~ $regex ]] && ere"
+    [[ $str =~ $regex ]] && ere
+    dev_pre_re="$regex"
+    (( 1 == 2))
+    set +x
+}
+
+print_array() {
+    local -n array=$1
+    for item in "${array[@]}"; do
+        echo "$item"
+    done
+}
+
+get_var_sig() { 
+    local has_var=false
+    [[ $1 == -v ]] && local -n ref=$2 && has_var=true && shift 2
+    local sig="$(declare -p "$1" 2>/dev/null)"
+    [[ $has_var == true ]] && ref="$sig" && return
+}
+
+is_var() { 
+    [[ $(typeof $1) != none ]]
+}
+
+typeof () {
+    local has_var=false
+    [[ $1 == -v ]] && local -n ref=$2 && has_var=true && shift 2
+
+    local type_signature #=$(declare -p "$1" 2>/dev/null)
+    local var_name=$1
+    util::get_ref_var_name -v "var_name" $1
+    get_var_sig -v type_signature $var_name
+    # echo type_signature "$type_signature"
+    # evar type_signature
+    local var_type=none
+    if [[ "$type_signature" =~ "declare --" ]]; then
+        var_type="string"
+    elif [[ "$type_signature" =~ "declare -a" ]]; then
+        var_type="array"
+    elif [[ "$type_signature" =~ "declare -A" ]]; then
+        var_type="map"
+    elif [[ "$type_signature" =~ "declare -n" ]]; then
+        var_type="ref"
+        # local name="${type_signature#*\"}"
+        # name="${name%%=\"}"
+        # # printf "name $name"
+        # [[ ! $name == $1 && $name != $type_signature ]] && typeof $name
+        # echo "[[ ! $name == $1 && $name != $type_signature ]] && typeof $name"
+        # typeof $name
+    else
+        var_type="none"
+    fi
+    
+    $has_var && ref="$var_type" && return
+    echo "$var_type"
+}
+
+remove-pg-admin-password() {
+    
+    (
+        local password_line_false='MASTER_PASSWORD_REQUIRED = False'
+        local password_line_true='MASTER_PASSWORD_REQUIRED = True'
+        cd /usr/pgadmin4/web || return 1
+        
+        [[ ! -f config_local.py ]] && sudo touch config_local.py
+        ! grep "$password_line_false" config_local.py && sudo tee -a config_local.py <<<"$password_line_false"
+        ! grep "$password_line_false" config.py && sudo sed -ie "s/$password_line_true/$password_line_false/g" config.py
+    )
+}
+
+_geo_set_terminal_title() {
+    local d="$(date '+%d %H:%M:%S')"
+     local date_str=
+    [[ $1 == -d ]] && date_str=" - $(date '+%d %H:%M:%S')" && shift
+    echo -ne "\033]0;$* $date_str\007"
+}
+
+clip_tile_length() {
+    local cmd="$@"
+    if [[ ${#cmd} -gt 20 ]]; then
+        echo "...${cmd: -20}"
+        return
+    fi
+    echo "$cmd"
+}

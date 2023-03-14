@@ -59,7 +59,7 @@ alias 644='chmod 644'
 alias 755='chmod 755'
 
 # Misc
-alias a='alias'
+# alias a='alias'
 alias c='clear'
 alias h='htop'
 alias x='exit'
@@ -138,6 +138,11 @@ alias gcpc='git cherry-pick --continue'
 alias gcps='git cherry-pick --skip'
 alias gca='git commit --amend --no-edit'
 alias gcl='git clean -xfd'
+# Shows the number of files changed and number of lines added/removed since the last commit.
+alias gdiff='git diff --shortstat HEAD'
+alias glog='git log --graph --oneline --decorate'
+
+
 
 gprr() {
     local version="$1"
@@ -191,3 +196,5 @@ alias csr='csharprepl'
 alias buildall="dotnet build -c Release -m:1 ${MYG_DIR}/All.sln"
 
 alias sconf="code ~/GEOTAB/Checkmate/server.config"
+
+alias e='evar '

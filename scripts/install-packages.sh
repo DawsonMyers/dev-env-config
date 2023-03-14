@@ -50,4 +50,7 @@ install_apt_package_if_missing remmina remmina-plugin-rdp remmina-plugin-secret
 install_apt_package_if_missing \
     vlc \
     xclip \
-    rename
+    rename \
+    gnome-extensions
+
+echo "NOTE: You need to install the gnome-extensions Chrome extension"

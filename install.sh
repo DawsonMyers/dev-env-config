@@ -13,7 +13,6 @@ if [[ ! -e ~/.nvm ]]; then
 	# Remove content starting at "#nvm-start" and ending at "#nvm-end" comments.
 	sed -i '/#nvm-start/,/#nvm-end/d' ~/.bashrc
 	cat <<-'EOF' >> ~/.bashrc
-
 	#nvm-start
 	export NVM_DIR="$HOME/.nvm"
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -39,6 +38,15 @@ if [[ $1 == -s ]]; then
 else
 	$DEV_ENV_DIR/scripts/install-packages.sh
 fi
+
+# Install gnome scripts (added to right-click menu on files)
+echo "Installing gnome scripts"
+NAUTILUS_SCRIPT_DIR="/home/$USER/.local/share/nautilus/scripts"
+echo "   => $NAUTILUS_SCRIPT_DIR"
+mkdir -p "$NAUTILUS_SCRIPT_DIR"
+chmod +x ./scripts/nautilus-scripts/*
+cp -f ./scripts/nautilus-scripts/* "$NAUTILUS_SCRIPT_DIR/"
+# cp -f "$DEV_ENV_DIR"/scripts/nautilus-scripts/* "${NAUTILUS_SCRIPT_DIR}/"
 
 # Show seconds on system clock.
 gsettings set org.gnome.desktop.interface clock-show-seconds true

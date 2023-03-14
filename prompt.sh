@@ -1,4 +1,10 @@
 # Colours for prompts have to be inside of \[COLOR\] escape sequences or the prompt line with overwrite itself.
+#----------------------------------------------------------------------------#
+# Bash text colour specification:  \e[<STYLE>;<COLOUR>m
+# (Note: \e = \033 (oct) = \x1b (hex) = 27 (dec) = "Escape")
+# Styles:  0=normal, 1=bold, 2=dimmed, 4=underlined, 7=highlighted
+# Colours: 31=red, 32=green, 33=yellow, 34=blue, 35=purple, 36=cyan, 37=white
+#----------------------------------------------------------------------------#
 
 # Reset
 Color_Off="\[\033[0m\]"       # Text Reset
@@ -73,7 +79,44 @@ On_IPurple="\[\033[10;95m\]"  # Purple
 On_ICyan="\[\033[0;106m\]"    # Cyan
 On_IWhite="\[\033[0;107m\]"   # White
 
+# There are several variables that can be set to control the appearance of the bach command prompt: PS1, PS2, PS3, PS4 and PROMPT_COMMAND the contents are executed just as if they had been typed on the command line.
+
+# PS1 – Default interactive prompt (this is the variable most often customized)
+# PS2 – Continuation interactive prompt (when a long command is broken up with \ at the end of the line) default=">"
+# PS3 – Prompt used by “select” loop inside a shell script
+# PS4 – Prompt used when a shell script is executed in debug mode (“set -x” will turn this on) default ="++"
+# PROMPT_COMMAND - If this variable is set and has a non-null value, then it will be executed just before the PS1 variable.
+
+# \d   The date, in "Weekday Month Date" format (e.g., "Tue May 26"). 
+# \h   The hostname, up to the first . (e.g. deckard) 
+# \H   The hostname. (e.g. deckard.SS64.com)
+# \j   The number of jobs currently managed by the shell. 
+# \l   The basename of the shell's terminal device name. 
+# \s   The name of the shell, the basename of $0 (the portion following the final slash). 
+# \t   The time, in 24-hour HH:MM:SS format. 
+# \T   The time, in 12-hour HH:MM:SS format. 
+# \@   The time, in 12-hour am/pm format. 
+# \u   The username of the current user. 
+# \v   The version of Bash (e.g., 2.00) 
+# \V   The release of Bash, version + patchlevel (e.g., 2.00.0) 
+# \w   The current working directory. 
+# \W   The basename of $PWD. 
+# \!   The history number of this command. 
+# \#   The command number of this command. 
+# \$   If you are not root, inserts a "$"; if you are root, you get a "#"  (root uid = 0) 
+# \nnn   The character whose ASCII code is the octal value nnn. 
+# \n   A newline. 
+# \r   A carriage return. 
+# \e   An escape character (typically a color code). 
+# \a   A bell character.
+# \\   A backslash. 
+# \[   Begin a sequence of non-printing characters. (like color escape sequences). This
+#     allows bash to calculate word wrapping correctly.
+# \]   End a sequence of non-printing characters.
+
+# Using single quotes instead of double quotes when exporting your PS variables is recommended, it makes the prompt a tiny bit faster to evaluate.
 # Various variables you might want for your PS1 prompt instead
+
 Time12h="\T"
 Time12a="\@"
 PathShort="\w"
@@ -98,6 +141,27 @@ __prompt_command() {
     local status=
     [[ $GIT_PROMPT_LAST_COMMAND_STATE == 0 ]] && status=$PROMPT_COMMAND_OK || status=$PROMPT_COMMAND_FAIL
     PS1="$status ${debian_chroot:+($debian_chroot)}"
+    local relative_path=$(pwd)
+    relative_path="${relative_path//$HOME/~}"
     # The \n must be in between the color on and color off characters, otherwise it will overwrite the line.
-    PS1+="${BGreen}${User}${Color_Off}:${BBlue}${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
+    PS1+="${BGreen}${User}${Color_Off}${Purple}($(ps1_timestamp)):${BBlue}$(export prev_bcmd="$BASH_COMMAND";set_terminal_title -d "${PathShort}")${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
+    # PS1+="${BGreen}${User}${Color_Off}${Purple}($(ps1_timestamp)):${BBlue}\$(set_terminal_title -d "$BASH_COMMAND|$PathShort")${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
+    # PS1+="${BGreen}${User}${Color_Off}${Purple}($(ps1_timestamp)):${BBlue}\$(set_terminal_title -d ${PathShort})${Color_Off}${Red}\n\$${Color_Off} "
+    # PS1+="${BGreen}${User}${Color_Off}${Purple}($(ps1_timestamp)):${BBlue}\$(_set_title_only ${PathShort})${Color_Off}${Red}\n\$${Color_Off} "
+    # PS1+="${BGreen}${User}${Color_Off}${Purple}($(ps1_timestamp)):${BBlue}${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
+    # _set_title_only "$PathShort"
+    # PS1+="${Purple}[$(ps1_timestamp)]${BGreen}${User}${Color_Off}:${BBlue}${PathShort}${Color_Off}${Red}\n\$${Color_Off} "
 }
+
+update_title_with_directory() {
+    'echo -ne "\033]0;$(basename ${PWD})\007"'
+}
+
+ps1_timestamp() {
+    
+    # date '+%D %T'
+    date '+%d %H:%M:%S'
+}
+
+export PS2="$CYAN"
+# export PS2="$On_ICyan"
