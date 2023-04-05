@@ -98,7 +98,60 @@ gsettings set org.gnome.nautilus.preferences default-sort-in-reverse-order true
 # 	echo
 # fi
 
+echo "Install Starship"
+# Install Starship
+#  https://starship.rs/guide/#%F0%9F%9A%80-installation
+echo "    * Installing Dependency: Nerd Fonts"
+(
+	if [[ -d ./submodules ]]; then
+		cd ./submodules
+		# cdmk env
+ 		git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+ 		cd nerd-fonts/
+ 		./install.sh JetBrainsMono
+ 		./install.sh Meslo
+ 		./install.sh FiraMono
+ 		./install.sh Hack
+ 		./install.sh Hasklug
+ 		./install.sh Hasklig
+ 		./install.sh Roboto
+ 		./install.sh RobotoMono
+ 		./install.sh UbuntuMono
+
+		echo "Installing Starship..."
+		curl -sS https://starship.rs/install.sh | sh
+	else
+		echo "ERROR: Cannot find submodules dir" 
+	fi
+
+)
+cd repos/
+
 # Re-source .bashrc
 . ~/.bashrc
 
 echo Done
+
+
+# Possible fixes to issues:
+# Added March 21, 2023 to increase open file limit.
+# https://stackoverflow.com/questions/8965606/node-and-error-emfile-too-many-open-files
+# fs.file-max=65535
+
+#TODO Keybindings - do programmatically
+# Shutter - Select: Print
+#   shutter -s -e
+# Shutter - geo-ui: Shift + Print
+#   shutter -e -d=3 -s=2270,28,288,771
+# Shutter - Active Window: ctrl + Print
+#   shutter -e -a
+# OBS record
+#   obs --startrecording
+
+# Install config dirs.
+mkdir -p ~/.config
+for conf_dir in ./include/.config/*; do
+	[[ -d $conf_dir ]] && echo "ERROR: $conf_dir already exists in ~/.config/" && continue
+	
+	ln -vs "$conf_dir" ~/.config/
+done

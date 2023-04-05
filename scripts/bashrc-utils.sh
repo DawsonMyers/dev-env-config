@@ -1,3 +1,7 @@
+#!/bin/bash
+
+[[ ! -v DEV_CONFIG_DIR ]] && export DEV_CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 # Convert jira issue name into git branch name.
 # MYG-14784 Create Backend for Device Sharing => MYG-14784-create-backend-for-device-sharing
 mkbranch() {
@@ -247,10 +251,13 @@ evar() {
                     $add_label && echo "  $name[$key] = ${var[$key]}" || echo "${var[$key]}"
                 done
                 ;;
+            export )
+                $add_label && echo "export $name: $var" || echo "$var"
+                ;;
             string | * )
                 $add_label && echo "$name: $var" || echo "$var"
                 ;;
-            * ) echo "type of '$name' is unknown/none" ;;
+            * ) echo "type of '$name' is unknown/none. Ref attempt: \$$name = $var" ;;
         esac
         shift
     done
@@ -320,6 +327,8 @@ typeof () {
         var_type="map"
     elif [[ "$type_signature" =~ "declare -n" ]]; then
         var_type="ref"
+    elif [[ "$type_signature" =~ "declare -x" ]]; then
+        var_type="export"
         # local name="${type_signature#*\"}"
         # name="${name%%=\"}"
         # # printf "name $name"
@@ -361,4 +370,181 @@ clip_tile_length() {
         return
     fi
     echo "$cmd"
+}
+# shellcheck disable=SC2120
+set_terminal_title() {
+    [[ ! $prev_bcmd =~ "source ~/.bashrc" || $prev_bcmd =~ =\"+(.+)\" ]] \
+        && cmd="${BASH_REMATCH[1]} " \
+        && cmd="$(clip_tile_length "$cmd")"
+        # && cmd="${cmd#export prev_bcmd=\"}" \
+    # cmd="$prev_bcmd"; # = $BASH_COMMAND
+
+    # cmd="${cmd:0: -1}"
+    # local d="$(date '+%d %H:%M:%S')"
+    #  local date_str=
+     local title=""
+    local date_str=
+    local arg_title=
+    # local geo_arg=
+    local OPTIND
+            while getopts "dgt:" opt; do
+                case "${opt}" in
+                    d ) date_str="$(date '+%a %b %e %r')"  ;;
+                    # d ) date_str="$(date '+%d %H:%M:%S')"  ;;
+                    g ) geo_title="[ geo-cli ]" ;;
+                    t ) arg_title="$OPTARG" ;;
+                    
+                esac
+            done
+            shift $((OPTIND - 1))
+
+     local title="$*"
+     : ${title:="$MYG_RELEASE_TAG"}
+     title="${title//$HOME/\~}"
+    #  [[ -n $arg_title ]] && title="$arg_title"
+    #  [[ $# -gt 0 ]] && title+=" | $*"
+    [[ -n $cmd ]] && title+=" $cmd" 
+
+    [[ -n $date_str ]] && title="[$date_str] | $title"
+# red $MYG_RELEASE
+    [[ -n $MYG_RELEASE_TAG ]] && title=" $MYG_RELEASE | $title"
+    #  [[ -n $date_str ]] && title="$title | ($date_str)"
+    
+    # echo c="$cmd" 
+    # echo "n=\${#cmd} = $c"
+    # n=${#cmd}
+    # inc=$((n>20 ? 20 : n))
+    # echo "inc=\$\(\($n>20 ? 20 : $n\)\) = $inc"
+    # i=$((n - inc))
+    # echo "i=\$(($n - $inc))"
+    # cmd="${cmd:$inc}"; 
+    # echo "cmd="\$cmd:$inc"; = $cmd"
+
+    # echo -ne "\033]0;$cmd${title}\007"
+    echo -ne "\033]0;${title}\007"
+    # echo -ne "\033]0;${title}${msg}\007"
+}
+# set_terminal_title
+
+_set_title_only() {
+    local title="$*"
+    [[ $1 == -e ]] && shift && title="$*" &&  echo "$*"
+    echo -ne "\033]0;${title}\007"
+}
+
+dev_get_repo_name() {
+    basename $(git rev-parse --show-toplevel) 2> /dev/null
+}
+
+dev_on_myg_repo() {
+    local repo=$(dev_get_repo_name)
+    [[ $repo == Development ]]
+}
+
+# export MYG_RELEASE=$(geo dev release) 2> /dev/null
+# export MYG_RELEASE_TAG="($(geo --raw-output dev release))" 2> /dev/null
+
+# _geo__set_terminal_title() {
+#     # local d="$(date '+%d %H:%M:%S')"
+#     #  local date_str=
+#      local title=""
+#     local date_str=
+#     local geo_title=
+#     # local geo_arg=
+#     local OPTIND
+#             while getopts "dgG:" opt; do
+#                 case "${opt}" in
+#                     d ) date_str="$(date '+%d %H:%M:%S')"  ;;
+#                     g ) geo_title="[ geo-cli ]" ;;
+#                     G ) geo_title="[ geo $OPTARG ]" ;;
+                    
+#                 esac
+#             done
+#             shift $((OPTIND - 1))
+
+#      local title=
+#      [[ -n $geo_title ]] && title="$geo_title"
+#      [[ $# -gt 0 ]] && title+=" - $*"
+#      [[ -n $date_str ]] && title="$title - $date_str"
+#     echo -ne "\033]0;${title}${msg}\007"
+# }
+
+# Echo on new lines. Echos out args on their own line.
+enl() {
+    for arg in "$@"; do echo "$arg"; done
+}
+
+file_size() {
+    stat -c '%s' "$1"
+}
+
+command_not_found_handle () 
+{ 
+    if [ -x /usr/lib/command-not-found ]; then
+        /usr/lib/command-not-found -- "$1";
+        return $?;
+    else
+        if [ -x /usr/share/command-not-found/command-not-found ]; then
+            /usr/share/command-not-found/command-not-found -- "$1";
+            return $?;
+        else
+            printf "%s: command not found\n" "$1" 1>&2;
+            return 127;
+        fi;
+    fi
+}
+
+get_stacktrace() {
+    local full_stack=true relative=true
+    [[ $1 =~ ^-*f* ]] && full_stack=true
+    [[ $1 =~ ^-*R* ]] && relative=false
+    local stack_size=${#BASH_SOURCE[@]}
+    # Start at 1 (not 0) to  exclude this func from the path.
+    local start=1
+    e stack_size
+    if $full_stack; then
+        for ((i=start; i < stack_size; i++)) ; do
+            local source_file="${BASH_SOURCE[i]:-terminal}"
+            local func="${FUNCNAME[i]:-command_line}"
+            local lineno=${BASH_LINENO[i]}
+            local stack_line='empty trace line'
+            [[ -z $lineno ]] && stack_line="↪ at $func in $source_file" \
+                || stack_line="↪ at $func in $source_file:$lineno"
+            # line=
+            [[ -n $make_path_relative_option ]] && stack_line="$(log::make_path_relative_to_user_dir "$stack_line")"
+            log::debug "$stack_line"
+        done
+        return
+    fi
+    # debug "_stacktrace: ${FUNCNAME[@]}"
+    local stacktrace="${FUNCNAME[@]:start}"
+    local stacktrace_reversed=
+    for f in $stacktrace; do
+        [[ -z $stacktrace_reversed ]] && stacktrace_reversed=$f && continue
+        stacktrace_reversed="$f.$stacktrace_reversed"
+        # stacktrace_reversed="$f -> $stacktrace_reversed"
+    done
+}
+
+dec_red() { echo -e "${DEC_Red}${*}${DEC_Off}"; }
+
+
+function ccat()
+{
+    local opts='-g'
+    [[ $1 =~ -l|-L|--line.* ]] \
+        && opts+=" -O style=colorful,linenos=1" \
+        && shift 2
+
+    pygmentize $opts "$*"
+}
+
+
+install_font() {
+    local installer="$DEV_CONFIG_DIR/submodules/nerd-fonts/install.sh"
+	if [[ -f $installer ]]; then
+		$installer $*
+	else
+		echo "ERROR: Nerd font installer not found at: $installer" 
+	fi
 }

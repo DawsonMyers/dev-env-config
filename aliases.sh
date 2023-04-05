@@ -30,10 +30,10 @@ BBLUE="\033[1;34m"
 ###########
 
 # ls 
-
-alias ll='ls -lh' # long format (l) and human readable file sizes (h)
-alias la='ls -A'
-alias l='ls -CF'
+alias ls='ls --color=auto -a'
+alias ll='ls -lha' # long format (l) and human readable file sizes (h)
+alias la='ls -Alah'
+alias l='ls -CFa'
 
 # Dir 
 alias home='cd'
@@ -188,6 +188,11 @@ alias gaab='geo analyze -bas'
 # Run all analyzers, skip (-s) long running analyzers
 alias gaa='geo analyze -as'
 # alias gaa='geo analyze 0 1 2 3 4 5 6 7'
+alias gcd='geo cd geo'
+alias cdmyg='geo cd dev'
+alias cddev='geo cd dev'
+alias dcd='geo cd dev'
+alias cdmyg='geo cd dev'
 
 # C#
 alias csr='csharprepl'
@@ -198,3 +203,4 @@ alias buildall="dotnet build -c Release -m:1 ${MYG_DIR}/All.sln"
 alias sconf="code ~/GEOTAB/Checkmate/server.config"
 
 alias e='evar '
+alias ee='echo '

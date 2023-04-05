@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../.local/share/nautilus/scripts"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../../.local/share/gnome-shell/extensions/argos@pew.worldwidemann.com"
+		}
+	],
+	"settings": {}
+}
