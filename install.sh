@@ -21,6 +21,13 @@ if [[ ! -e ~/.nvm ]]; then
 EOF
 fi
 
+if [[ -f ~/.bashrc && ! -L ~/.basrc ]]; then
+	mv ~/.bashrc ~/.bashrc.bac
+fi
+
+
+ln -fs ~/.bashrc $DEV_CONFIG_DIR/shells/bash/.bashrc
+
 if ! type csharprepl > /dev/null; then
 	echo "Installing csharprepl"
 	if ! type dotnet > /dev/null; then
@@ -58,20 +65,34 @@ git config --global push.autoSetupRemote true
 # Remove content starting at "#geo-cli-start" and ending
 # at "#geo-cli-end" comments.
 sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.bashrc
+[[ -f ~/.zshrc ]] && sed -i '/#dev-env-config-start/,/#dev-env-config-end/d' ~/.zshrc
 
 # if [[ -n `grep dev-env-config ~/.bashrc` ]]; then
 
 #	tee -a $HOME/.bashrc <<- EOF
-	cat <<- EOF >> $HOME/.bashrc
+	# cat <<- EOF >> $HOME/.bashrc
 	
-	#dev-env-config-start
-	# Dev environment config repo bootstrap
-	#######################################
-	. "$DEV_ENV_DIR/bashrc.sh"
-	#######################################
-	#dev-env-config-end
+	# #dev-env-config-start
+	# # Dev environment config repo bootstrap
+	# #######################################
+	# . "$DEV_ENV_DIR/bashrc.sh"
+	# #######################################
+	# #dev-env-config-end
+
+# EOF
+ 
+# this overwrite brc ^
+
+if [[ -f ~/.zshrc ]]; then
+cat <<- EOF >> $HOME/.zshrc
+	
+#dev-env-config-start
+	. "$DEV_ENV_DIR/shells/zsh/zshrc.sh"
+#dev-env-config-end
+
 EOF
 
+fi
 # Set VSCode as the default editor for text files.
 bash xdg-mime default code.desktop text/plain
 # Changes will take effect after a reboot/re-log

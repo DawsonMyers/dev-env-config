@@ -264,6 +264,7 @@ evar() {
 }
 
 ere() {
+    # set +x
     [[ -z $1 ]] && print_array BASH_REMATCH && return
     # local array=("${BASH_REMATCH[@]}")
     while [[ -n $1 ]]; do
@@ -276,7 +277,7 @@ ere() {
 dev_pre_re=
 
 re() {
-    set -x
+    set +x
     local str="$1"
     local regex="${2:-$dev_pre_re}"
     [[ -z $str ]] && return 1
@@ -287,7 +288,6 @@ re() {
     [[ $str =~ $regex ]] && ere
     dev_pre_re="$regex"
     (( 1 == 2))
-    set +x
 }
 
 print_array() {
@@ -364,9 +364,35 @@ _geo_set_terminal_title() {
 }
 
 clip_tile_length() {
+    local length=20
+    [[ $1 =~ -n|-l|-c|--len*|--count ]] && [[ $2 =~ [[:digit:]]+ ]] && length=$2 && shift
     local cmd="$@"
-    if [[ ${#cmd} -gt 20 ]]; then
-        echo "...${cmd: -20}"
+    if [[ ${#cmd} -gt $length ]]; then
+        echo "...${cmd: -$length}"
+        return
+    fi
+    echo "$cmd"
+}
+
+clip_start() {
+    local length=20
+    [[ $1 =~ -n|-l|-c|--len*|--count ]] && [[ $2 =~ [[:digit:]]+ ]] && length=$2 && shift
+    local cmd="$@"
+    if [[ ${#cmd} -gt $length ]]; then
+        echo "...${cmd: -$length}"
+        return
+    fi
+    echo "$cmd"
+}
+
+clip_end() {
+    local length=20
+    local trail_off='...'
+    ((length -= ${#trail_off}))
+    [[ $1 =~ -n|-l|-c|--len*|--count ]] && [[ $2 =~ [[:digit:]]+ ]] && length=$2 && shift
+    local cmd="$@"
+    if [[ ${#cmd} -gt $length ]]; then
+        echo "${cmd: -$length}$trail_off"
         return
     fi
     echo "$cmd"
@@ -501,7 +527,7 @@ get_stacktrace() {
     local stack_size=${#BASH_SOURCE[@]}
     # Start at 1 (not 0) to  exclude this func from the path.
     local start=1
-    e stack_size
+    # e stack_size
     if $full_stack; then
         for ((i=start; i < stack_size; i++)) ; do
             local source_file="${BASH_SOURCE[i]:-terminal}"
@@ -547,4 +573,11 @@ install_font() {
 	else
 		echo "ERROR: Nerd font installer not found at: $installer" 
 	fi
+}
+
+# Define function to add a directory to $PATH
+pathadd() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="$1${PATH:+":$PATH"}"
+    fi
 }

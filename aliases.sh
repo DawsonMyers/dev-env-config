@@ -142,11 +142,14 @@ alias gcl='git clean -xfd'
 alias gdiff='git diff --shortstat HEAD'
 alias glog='git log --graph --oneline --decorate'
 
-
+get_myg_release() {
+    echo $(cd ~/repos/Development && git describe --tags --abbrev=0 --match MYG* | sed -e 's_MYG/__g')
+}
 
 gprr() {
     local version="$1"
-    [[ -z $version ]] && version=$(geo --raw-output dev release)
+    [[ -z $version ]] && version=$(get_myg_release)
+    # [[ -z $version ]] && version=$(geo --raw-output dev release)
     [[ -z $version ]] && echo 'Error: no version specified' && return
 
     # Add the .0 suffix to the version if it is missing (e.g. 8 => 8.0);
@@ -204,3 +207,8 @@ alias sconf="code ~/GEOTAB/Checkmate/server.config"
 
 alias e='evar '
 alias ee='echo '
+
+# Copy to clipboard.
+alias setclip="xclip -selection c"
+# Paste from clipboard.
+alias getclip="xclip -selection c -o"

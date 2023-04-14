@@ -1,0 +1,23 @@
+[Desktop Entry]
+X-AppInstall-Package=gnome-terminal-y
+X-AppInstall-Section=main
+
+Name=ZSH-Terminal
+Comment=Use zsh in the command line
+TryExec=zsh
+Exec=terminator -e zsh
+# Exec=gnome-terminal --class=zsh -e zsh
+Terminal=false
+Icon=/home/lucifer/.oh-my-zsh/zsh.png
+Type=Application
+StartupNotify=true
+X-GNOME-SingleWindow=true
+OnlyShowIn=GNOME;Unity;
+Actions=New
+StartupWMClass=zsh
+
+Name[en_US]=ZSH-Terminal
+
+[Desktop Action New]
+Name=New Terminal
+Exec=gnome-terminal --class=zsh -e zsh

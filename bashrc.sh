@@ -56,7 +56,7 @@ fi
 
 # Store cmds to history  as they are entered
 shopt -s histappend  
-append_to_history() { history -a; }
+# append_to_history() { history -a; }
 # [[ ! $PROMPT_COMMAND =~ append_to_history ]] && PROMPT_COMMAND+=';append_to_history;'
 
 # Add GitLab PAT environment variables.
@@ -72,7 +72,7 @@ gcor() {
 # Enable Starship
 # eval "$(starship init bash)"
 
-export EDITOR='code -n '
+export EDITOR='code -nw '
 
 disk_analyzer() {
     sudo baobab
@@ -92,5 +92,34 @@ resize_swap() {
 mkdir -p ~/.bash_completion
 
 for completion_file in ~/.bash_completion/*; do
-    . $completion_file
+    . "$completion_file"
 done
+
+# if [ -f ~/bin/sensible.bash ]; then
+#    source ~/bin/sensible.bash
+# fi
+
+# Implicit cd
+shopt -s autocd
+# Correct minor errors in the spelling of a directory
+shopt -s cdspell
+shopt -s dirspell
+# Activate recursive globbing
+shopt -s globstar
+
+# Don't put duplicate lines or lines starting with space in the history
+HISTCONTROL="erasedups:ignoreboth"
+# Commands that don't need to get recorded
+# export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history"
+# Save multi-line commands to the history as one command
+shopt -s cmdhist
+# Append to the history file, don't overwrite it
+shopt -s histappend
+# Set history size to a very large number
+HISTSIZE=500000
+HISTFILESIZE=400000
+# Record each line of history right away
+# instead of at the end of the session
+[[ ! $PROMPT_COMMAND =~ "history -a" ]] && PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ;} history -a"
+# Set history timestamp format
+# HISTTIMEFORMAT='%F %T '

@@ -1,0 +1,101 @@
+pwsh
+$containers = Get-GeotabContainerFromMetadata
+$mygcont = $containers.Values | Where-Object { $_.ContainerName -eq "mygeotab" }
+Start-GeotabContainer -Container $mygcont -WhatIf
+
+What if: Performing the operation "checking container status" on target "mygeotab".                                     
+What if: Performing the operation "Set variable" on target "Name: hostName Value: support2_mygeotab".
+What if: Performing the operation "Set variable" on target "Name: hostMount Value: mygeotab".
+What if: Performing the operation "Set variable" on target "Name: containerMount Value: /home/mygeotab/GEOTAB".
+What if: Performing the operation "Set variable" on target "Name: attestor Value: ".
+What if: Performing the operation "Set variable" on target "Name: ports Value: System.Object[]".
+What if: Performing the operation "Set variable" on target "Name: command Value: ".
+What if: Performing the operation "Set variable" on target "Name: additionalSwitches Value: System.Object[]".
+What if: Performing the operation "Set variable" on target "Name: prometheusPort Value: 9009".
+What if: Performing the operation "Set variable" on target "Name: secrets Value: System.Object[]".
+What if: Performing the operation "
+docker run -d --name mygeotab --publish 80:10000 --publish 443:10001 --publish 8443:8443  --volume /storagebucket/mygeotab:/cloudstorage --volume /dockervol/mygeotab:/home/mygeotab/GEOTAB:rw  --volume /etc/geotab/certificates/FMCSA/2023PASS.p12:/etc/geotab/certificates/FMCSA/PUBLIC.p12 --volume /etc/geotab/certificates/MyServerBQ/latest.pfx:/etc/geotab/certificates/MyServerBQ/myserverbq.pfx --volume /etc/geotab/certificates/GeotabEld/latest.pfx:/etc/geotab/certificates/GeotabEld/geotabeld.pfx --volume /etc/geotab/certificates/Server/latest.pfx:/etc/geotab/certificates/Server/server.pfx --volume /etc/geotab/certificates/Postgres/GeotabPostgres.crt:/etc/geotab/certificates/Postgres/GeotabPostgres.crt --volume /etc/geotab/certificates/Postgres/GeotabPostgres.key:/etc/geotab/certificates/Postgres/GeotabPostgres.key --volume /etc/geotab/certificates/GeotabLocal/latest.pfx:/etc/geotab/certificates/GeotabLocal/geotablocal.pfx --volume /etc/geotab/certificates/PublicCerts/DigiCertInc_DigiCertGlobalRootCA_20311110.crt:/usr/lib/ssl/certs/DigiCertInc_DigiCertGlobalRootCA_20311110.crt --volume /etc/geotab/certificates/PublicCerts/DigiCertInc_DigiCertTLSRSASHA2562020CA1_20310413.crt:/usr/lib/ssl/certs/DigiCertInc_DigiCertTLSRSASHA2562020CA1_20310413.crt --volume /etc/geotab/certificates/PublicCerts/GeotabIntermediateCACommercial_20430602.crt:/usr/lib/ssl/certs/GeotabIntermediateCACommercial_20430602.crt --volume /etc/geotab/certificates/PublicCerts/GeotabIssuingCACommercial_20320710.crt:/usr/lib/ssl/certs/GeotabIssuingCACommercial_20320710.crt --volume /etc/geotab/certificates/PublicCerts/GeotabRootCA_20460601.crt:/usr/lib/ssl/certs/GeotabRootCA_20460601.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_DigicertGlobalRoot.crt:/usr/lib/ssl/certs/PublicCerts_DigicertGlobalRoot.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabCA.crt:/usr/lib/ssl/certs/PublicCerts_GeotabCA.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabCAGov.crt:/usr/lib/ssl/certs/PublicCerts_GeotabCAGov.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabIntermediateCAFedRamp.crt:/usr/lib/ssl/certs/PublicCerts_GeotabIntermediateCAFedRamp.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabIssuingCAFedRAMP.crt:/usr/lib/ssl/certs/PublicCerts_GeotabIssuingCAFedRAMP.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabRootCA.crt:/usr/lib/ssl/certs/PublicCerts_GeotabRootCA.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_zscalerSSL.crt:/usr/lib/ssl/certs/PublicCerts_zscalerSSL.crt --volume /etc/geotab/certificates/PublicCerts/TransportCanadaELD_TransportCanadaELDIssuingCA_20320526.crt:/usr/lib/ssl/certs/TransportCanadaELD_TransportCanadaELDIssuingCA_20320526.crt --volume /etc/geotab/certificates/PublicCerts/TransportCanadaELD_TransportCanadaELDRootCA_20420526.crt:/usr/lib/ssl/certs/TransportCanadaELD_TransportCanadaELDRootCA_20420526.crt --volume /etc/geotab/certificates/GoogleCloudStorage/latest.p12:/etc/geotab/certificates/GoogleCloudStorage/googlecloudstorage.p12 --volume /etc/geotab/certificates/AptivBucket/latest.p12:/etc/geotab/certificates/Mdf4Uploader/Mdf4Uploader.p12 --volume /etc/geotab/certificates/TransportCanadaELD/latest.pfx:/etc/geotab/certificates/TransportCanadaELD/transportcanadaeld.pfx --volume /etc/geotab/certificates/TransportCanadaELDIssuing/latest.pem:/etc/geotab/certificates/TransportCanadaELDIssuing/TransportCanadaIssuingCA.pem --volume /etc/geotab/certificates/TransportCanadaELDRoot/latest.pem:/etc/geotab/certificates/TransportCanadaELDRoot/TransportCanadaRootCA.pem --hostname support2_mygeotab --tmpfs /tmp:rw --tmpfs /run:rw --tmpfs /var/run:rw --memory 32110m --network geotab_docker_bridge --ip=172.18.0.100 --log-driver=gcplogs --restart=unless-stopped --read-only --cap-add=SYS_PTRACE --security-opt=no-new-privileges --shm-size=256m --env HTTP_PORT=10000 --env HTTPS_PORT=10001 --env MYGEOTAB_POSTGRES_HOST=postgres --env MYGEOTAB_POSTGRES_PASSWORD=vircom43 --env MYGEOTAB_POSTGRES_USER=geotabuser --env SUPPORTSERVER=TRUE --env VAULT_CREDENTIALS='{
+  \"type\": \"service_account\",
+  \"project_id\": \"geotab-myserver\",
+  \"private_key_id\": \"ba0664f162942e4f2c92a11eeb876fa95329fe9d\",
+  \"private_key\": \"-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkWC4bHXLGV5iC\nXV6RmXbsMNU1f8srPsqboZdA2HA8VAbvDcuuy9JEDKcL5c23PpKaRBdSuyuyL7+U\ngcF7gPManZTHLEoid9mXMPujsK0GeHzxuv3IUkLE35yUwWS6lVHB5Sv2TtNSuXPU\nVZfGPG1RVCahapVttK7z1f+38eN9GeHdrtLuPaOSmTnbJzoNSVZihRuGDg376Mk7\n6R+rQLUTDmHQ+9OCGTV0DWOAbm1iPkH3jTgK0tvSAvOHtmBWzWlVsD7rIh/ml733\n4OTNNuiJAtcBBtW4MLFElcT21ly6EjpSyhjovJhRGh0W2j78WaPhemQjMnop3fsT\n8ltoKN0TAgMBAAECggEAQBEiNC7YOgsW6KdWgQMnEa99xoPho6OwX1hwuvZFVrdZ\nFqM1pphNiXq3OlOlTQzHIP1vbDCMOcQUduPYlflwjA0nXTfeVK6NNDwDtU3gPdgF\nuUSwv4GWBuK3S2RTDMu+GgzphPU4u5SRW5Lcfoq7AQwBnUaMJz7bPzJLJJ3XFcK7\ntZvqhXN1OQuJN9aT+MXDzT4d+CfB1T4SU2htJ5TkEwgfOzillNWJLkK6Ygq9yacs\nu2CZJoMfi9heBI6dFapRXzcsL2CxFgn3hjdYM9texpRe1qRSiRfeWjJmDfW+jJRr\nDmAtJ9QiHVASvgs8CeYs85tn3EHi9Yel/APM3qaUaQKBgQDVfvPiF8uehN/jFo/p\nPhajbL28vXMI4XGxAu0PVBW6mPwm8lhWEIjuVJgWonFbrj1o2ln48oLLvfCCCPTv\n65nVu8Q+rlcPHBaZjMtYMlYCOLiDGZofFDdIiD02l2bi4MDFgKCm2n5n6tl20Hb2\nHRnbdLub5Yl59Iem+J1CGJTD+wKBgQDFECvC7Tiuwo4f1rRdsmCw2xNtFvS14k7l\n6BWYNXCIIzl7Ne961/QRhF9DtgWbqB6qCznIynahOxD8naLtJFHh1VNwpKIjfICD\n7wGBNcY+pZcpw5xq6f22nJrETsYhVSSCcgazSCQ6NvctGFIE45Nh8NeoVcVtA1h3\nu1dqKLNnyQKBgE05wMo1xUev1LR2AtRhyxqOSQuuk5/QvKlE3689wSZgFEWaP+3R\nyVY8b08wr0R0gG4fHZB5WGqOaCMBTmhClsDDTLdHpOIoTNx6G0vp2Uawcb2qUx+O\n1nh8H3hRx7ulhNVsM7BnNHYucz8RJRbda+8ACKTZoKLmmvMA1xGDhrxlAoGACBj7\nA16GFsBN4McM0FDVIk9ORAxOb+7luRLJWGDRx/ZSlVqJBa48DEA5PeoL3vKQmAIw\nFK0lJMjtkMPVfxMf/jyq2hUZyIWELmey0yFnjQl25bNxCP+mekuDHI/0GkiKYIXY\n+qL7Qh0iGQtHy4Wid8LSycsEes9JYlojZGxZuukCgYA1yIzKQKoiYQhLyN8HlUuX\n7LK8sbOl2Sk8M41wbtr5KgOWHCkKL9IFhDhRqS1Bbd8ZVmK+Ftil/blxY8tP8i/G\nIeHu8wcKlTilD3ePcv+koYuTEbRLShjMtEb9CRDh6fyk6Ms/A3FufXfMjJx0UpxH\n0+Iit6KBbaa/fBl1DhlVtA==\n-----END PRIVATE KEY-----\n\",
+  \"client_email\": \"vaultcredentials@geotab-myserver.iam.gserviceaccount.com\",
+  \"client_id\": \"114319772551307167652\",
+  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",
+  \"token_uri\": \"https://oauth2.googleapis.com/token\",
+  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",
+  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/vaultcredentials%40geotab-myserver.iam.gserviceaccount.com\"
+}' --env WebServerSettings__PrometheusSettings__IsEnabled=true --env WebServerSettings__VaultSettings__IsEnabled=true --env WebServerSettings__VaultSettings__VaultBaseUrl=https://vault2.geotab.com/ --env WebServerSettings__VaultSettings__VaultIapClientId=745291186059-qh9qmk3dl1egmlu0vs3po8c4k04ap104.apps.googleusercontent.com --env WebServerSettings__VaultSettings__VaultKvEngine=DEV-SDKIntegration-app-MyGeotab-prod --env WebServerSettings__VaultSettings__VaultRoleId=dev-sdkintegration-app-mygeotab-prod --env WebServerSettings__VaultSettings__VaultServiceAccountPath=/home/mygeotab/GEOTAB/Checkmate/vaultcredentials.json --volume /var/log/docker-bash-history/mygeotab-bash_history:/root/.bash_history gcr.io/build-project/mygeotab:8.0.2561-a6352bf5062c 
+
+
+--volume /home/dawsonmyers/.ssh:/home/dawsonmyers/.ssh --volume /etc/passwd:/etc/passwd --volume /etc/group:/etc/group --volume /etc/shadow:/etc/shadow --env DEBUG_USER=dawsonmyers --publish {{HOST_IP}}:5986:22 --volume /dockervol/mygeotab:/home/dawsonmyers/GEOTAB:rw mygeotab-debug
+
+ " on target "mygeotab".
+successful
+
+
+
+What if: Performing the operation "checking container status" on target "mygeotab".                 
+What if: Performing the operation "Set variable" on target "Name: hostName Value: support2_mygeotab".
+What if: Performing the operation "Set variable" on target "Name: hostMount Value: mygeotab".
+What if: Performing the operation "Set variable" on target "Name: containerMount Value: /home/mygeotab/GEOTAB".
+What if: Performing the operation "Set variable" on target "Name: attestor Value: ".
+What if: Performing the operation "Set variable" on target "Name: ports Value: System.Object[]".
+What if: Performing the operation "Set variable" on target "Name: command Value: ".
+What if: Performing the operation "Set variable" on target "Name: additionalSwitches Value: System.Object[]".
+What if: Performing the operation "Set variable" on target "Name: prometheusPort Value: 9009".
+What if: Performing the operation "Set variable" on target "Name: secrets Value: System.Object[]".
+What if: Performing the operation "docker run -d --name mygeotab --publish 80:10000 --publish 443:10001 --publish 8443:8443  --volume /storagebucket/mygeotab:/cloudstorage --volume /dockervol/mygeotab:/home/mygeotab/GEOTAB:rw  --volume /etc/geotab/certificates/FMCSA/2023PASS.p12:/etc/geotab/certificates/FMCSA/PUBLIC.p12 --volume /etc/geotab/certificates/MyServerBQ/latest.pfx:/etc/geotab/certificates/MyServerBQ/myserverbq.pfx --volume /etc/geotab/certificates/GeotabEld/latest.pfx:/etc/geotab/certificates/GeotabEld/geotabeld.pfx --volume /etc/geotab/certificates/Server/latest.pfx:/etc/geotab/certificates/Server/server.pfx --volume /etc/geotab/certificates/Postgres/GeotabPostgres.crt:/etc/geotab/certificates/Postgres/GeotabPostgres.crt --volume /etc/geotab/certificates/Postgres/GeotabPostgres.key:/etc/geotab/certificates/Postgres/GeotabPostgres.key --volume /etc/geotab/certificates/GeotabLocal/latest.pfx:/etc/geotab/certificates/GeotabLocal/geotablocal.pfx --volume /etc/geotab/certificates/PublicCerts/DigiCertInc_DigiCertGlobalRootCA_20311110.crt:/usr/lib/ssl/certs/DigiCertInc_DigiCertGlobalRootCA_20311110.crt --volume /etc/geotab/certificates/PublicCerts/DigiCertInc_DigiCertTLSRSASHA2562020CA1_20310413.crt:/usr/lib/ssl/certs/DigiCertInc_DigiCertTLSRSASHA2562020CA1_20310413.crt --volume /etc/geotab/certificates/PublicCerts/GeotabIntermediateCACommercial_20430602.crt:/usr/lib/ssl/certs/GeotabIntermediateCACommercial_20430602.crt --volume /etc/geotab/certificates/PublicCerts/GeotabIssuingCACommercial_20320710.crt:/usr/lib/ssl/certs/GeotabIssuingCACommercial_20320710.crt --volume /etc/geotab/certificates/PublicCerts/GeotabRootCA_20460601.crt:/usr/lib/ssl/certs/GeotabRootCA_20460601.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_DigicertGlobalRoot.crt:/usr/lib/ssl/certs/PublicCerts_DigicertGlobalRoot.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabCA.crt:/usr/lib/ssl/certs/PublicCerts_GeotabCA.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabCAGov.crt:/usr/lib/ssl/certs/PublicCerts_GeotabCAGov.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabIntermediateCAFedRamp.crt:/usr/lib/ssl/certs/PublicCerts_GeotabIntermediateCAFedRamp.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabIssuingCAFedRAMP.crt:/usr/lib/ssl/certs/PublicCerts_GeotabIssuingCAFedRAMP.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_GeotabRootCA.crt:/usr/lib/ssl/certs/PublicCerts_GeotabRootCA.crt --volume /etc/geotab/certificates/PublicCerts/PublicCerts_zscalerSSL.crt:/usr/lib/ssl/certs/PublicCerts_zscalerSSL.crt --volume /etc/geotab/certificates/PublicCerts/TransportCanadaELD_TransportCanadaELDIssuingCA_20320526.crt:/usr/lib/ssl/certs/TransportCanadaELD_TransportCanadaELDIssuingCA_20320526.crt --volume /etc/geotab/certificates/PublicCerts/TransportCanadaELD_TransportCanadaELDRootCA_20420526.crt:/usr/lib/ssl/certs/TransportCanadaELD_TransportCanadaELDRootCA_20420526.crt --volume /etc/geotab/certificates/GoogleCloudStorage/latest.p12:/etc/geotab/certificates/GoogleCloudStorage/googlecloudstorage.p12 --volume /etc/geotab/certificates/AptivBucket/latest.p12:/etc/geotab/certificates/Mdf4Uploader/Mdf4Uploader.p12 --volume /etc/geotab/certificates/TransportCanadaELD/latest.pfx:/etc/geotab/certificates/TransportCanadaELD/transportcanadaeld.pfx --volume /etc/geotab/certificates/TransportCanadaELDIssuing/latest.pem:/etc/geotab/certificates/TransportCanadaELDIssuing/TransportCanadaIssuingCA.pem --volume /etc/geotab/certificates/TransportCanadaELDRoot/latest.pem:/etc/geotab/certificates/TransportCanadaELDRoot/TransportCanadaRootCA.pem --hostname support2_mygeotab --tmpfs /tmp:rw --tmpfs /run:rw --tmpfs /var/run:rw --memory 32110m --network geotab_docker_bridge --ip=172.18.0.100 --log-driver=gcplogs --restart=unless-stopped --read-only --cap-add=SYS_PTRACE --security-opt=no-new-privileges --shm-size=256m --env HTTP_PORT=10000 --env HTTPS_PORT=10001 --env MYGEOTAB_POSTGRES_HOST=postgres --env MYGEOTAB_POSTGRES_PASSWORD=vircom43 --env MYGEOTAB_POSTGRES_USER=geotabuser --env SUPPORTSERVER=TRUE --env VAULT_CREDENTIALS='{
+  \"type\": \"service_account\",
+  \"project_id\": \"geotab-myserver\",
+  \"private_key_id\": \"ba0664f162942e4f2c92a11eeb876fa95329fe9d\",
+  \"private_key\": \"-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCkWC4bHXLGV5iC\nXV6RmXbsMNU1f8srPsqboZdA2HA8VAbvDcuuy9JEDKcL5c23PpKaRBdSuyuyL7+U\ngcF7gPManZTHLEoid9mXMPujsK0GeHzxuv3IUkLE35yUwWS6lVHB5Sv2TtNSuXPU\nVZfGPG1RVCahapVttK7z1f+38eN9GeHdrtLuPaOSmTnbJzoNSVZihRuGDg376Mk7\n6R+rQLUTDmHQ+9OCGTV0DWOAbm1iPkH3jTgK0tvSAvOHtmBWzWlVsD7rIh/ml733\n4OTNNuiJAtcBBtW4MLFElcT21ly6EjpSyhjovJhRGh0W2j78WaPhemQjMnop3fsT\n8ltoKN0TAgMBAAECggEAQBEiNC7YOgsW6KdWgQMnEa99xoPho6OwX1hwuvZFVrdZ\nFqM1pphNiXq3OlOlTQzHIP1vbDCMOcQUduPYlflwjA0nXTfeVK6NNDwDtU3gPdgF\nuUSwv4GWBuK3S2RTDMu+GgzphPU4u5SRW5Lcfoq7AQwBnUaMJz7bPzJLJJ3XFcK7\ntZvqhXN1OQuJN9aT+MXDzT4d+CfB1T4SU2htJ5TkEwgfOzillNWJLkK6Ygq9yacs\nu2CZJoMfi9heBI6dFapRXzcsL2CxFgn3hjdYM9texpRe1qRSiRfeWjJmDfW+jJRr\nDmAtJ9QiHVASvgs8CeYs85tn3EHi9Yel/APM3qaUaQKBgQDVfvPiF8uehN/jFo/p\nPhajbL28vXMI4XGxAu0PVBW6mPwm8lhWEIjuVJgWonFbrj1o2ln48oLLvfCCCPTv\n65nVu8Q+rlcPHBaZjMtYMlYCOLiDGZofFDdIiD02l2bi4MDFgKCm2n5n6tl20Hb2\nHRnbdLub5Yl59Iem+J1CGJTD+wKBgQDFECvC7Tiuwo4f1rRdsmCw2xNtFvS14k7l\n6BWYNXCIIzl7Ne961/QRhF9DtgWbqB6qCznIynahOxD8naLtJFHh1VNwpKIjfICD\n7wGBNcY+pZcpw5xq6f22nJrETsYhVSSCcgazSCQ6NvctGFIE45Nh8NeoVcVtA1h3\nu1dqKLNnyQKBgE05wMo1xUev1LR2AtRhyxqOSQuuk5/QvKlE3689wSZgFEWaP+3R\nyVY8b08wr0R0gG4fHZB5WGqOaCMBTmhClsDDTLdHpOIoTNx6G0vp2Uawcb2qUx+O\n1nh8H3hRx7ulhNVsM7BnNHYucz8RJRbda+8ACKTZoKLmmvMA1xGDhrxlAoGACBj7\nA16GFsBN4McM0FDVIk9ORAxOb+7luRLJWGDRx/ZSlVqJBa48DEA5PeoL3vKQmAIw\nFK0lJMjtkMPVfxMf/jyq2hUZyIWELmey0yFnjQl25bNxCP+mekuDHI/0GkiKYIXY\n+qL7Qh0iGQtHy4Wid8LSycsEes9JYlojZGxZuukCgYA1yIzKQKoiYQhLyN8HlUuX\n7LK8sbOl2Sk8M41wbtr5KgOWHCkKL9IFhDhRqS1Bbd8ZVmK+Ftil/blxY8tP8i/G\nIeHu8wcKlTilD3ePcv+koYuTEbRLShjMtEb9CRDh6fyk6Ms/A3FufXfMjJx0UpxH\n0+Iit6KBbaa/fBl1DhlVtA==\n-----END PRIVATE KEY-----\n\",
+  \"client_email\": \"vaultcredentials@geotab-myserver.iam.gserviceaccount.com\",
+  \"client_id\": \"114319772551307167652\",
+  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",
+  \"token_uri\": \"https://oauth2.googleapis.com/token\",
+  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",
+  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/vaultcredentials%40geotab-myserver.iam.gserviceaccount.com\"
+}' --env WebServerSettings__PrometheusSettings__IsEnabled=true --env WebServerSettings__VaultSettings__IsEnabled=true --env WebServerSettings__VaultSettings__VaultBaseUrl=https://vault2.geotab.com/ --env WebServerSettings__VaultSettings__VaultIapClientId=745291186059-qh9qmk3dl1egmlu0vs3po8c4k04ap104.apps.googleusercontent.com --env WebServerSettings__VaultSettings__VaultKvEngine=DEV-SDKIntegration-app-MyGeotab-prod --env WebServerSettings__VaultSettings__VaultRoleId=dev-sdkintegration-app-mygeotab-prod --env WebServerSettings__VaultSettings__VaultServiceAccountPath=/home/mygeotab/GEOTAB/Checkmate/vaultcredentials.json --volume /var/log/docker-bash-history/mygeotab-bash_history:/root/.bash_history gcr.io/build-project/mygeotab:8.0.2534-7aeba9b03e6d " on target "mygeotab".
+
+'$containers = Get-GeotabContainerFromMetadata &&
+    $mygcont = $containers.Values | Where-Object { $_.ContainerName -eq "mygeotab" } &&
+    Start-GeotabContainer -Container $mygcont -WhatIf'
+
+'$containers = Get-GeotabContainerFromMetadata; $mygcont = $containers.Values | Where-Object { $_.ContainerName -eq "mygeotab" }; Start-GeotabContainer -Container $mygcont -WhatIf'
+
+
+
+
+sudo -i
+sed -iE 's/^[^#](.*Invoke-GeotabContainerMetadataSync.*$)/#\1/' /etc/crontab
+# Can be re-enable with this:
+# sed -iE 's/^#+(.*Invoke-GeotabContainerMetadataSync.*$)/\1/' /etc/crontab
+
+# new_image_url = <url at the end of AutoDeploy-MYG-Docker-Build-Project GitLab job>
+image_name=gcr.io/build-project/mygeotab:8.0.2561-620daaf4c639
+new_image_url=gcr.io/build-project/mygeotab:8.0.2561-620daaf4c639
+docker pull $new_image_url
+
+
+replace_myg_container() {
+    local image_url download_image=false
+    [[ $1 == -d ]] && download_image=true && shift
+    image_url="$1"
+    [[ ! $image_url =~ ^gcr.io.*[[:alnum:]]+$ ]] && echo "Invalid image url" >&2 && return 1
+    #docker stop mygeotab \
+    #docker rm mygeotab \
+    #&& 
+    docker_run_info_pwsh_cmd='$containers = Get-GeotabContainerFromMetadata; $mygcont = $containers.Values | Where-Object { $_.ContainerName -eq "mygeotab" }; Start-GeotabContainer -Container $mygcont -WhatIf'
+    docker_run_info="$(pwsh -c "$docker_run_info_pwsh_cmd")" 
+    [[ ! $docker_run_info =~ (.*docker run)(.*)(gcr.io.*) ]] && echo "Failed to get docker run command info using pwsh commands" >&2 && return 1
+    myg_docker_run_cmd="$(echo "docker run ${BASH_REMATCH[2]} $new_image_url")"
+    echo "Docker run command: 
+    echo starting MyGeotab \
+    (( ${#myg_docker_run_cmd} > 7000 )) \
+        && echo "$image_url"
+            #eval "$image_url"
+        || echo "The length of the correct docker run command should be over 7000 characters, but instead contained only ${#myg_docker_run_cmd}" >&2 && return 1
+}
+
+

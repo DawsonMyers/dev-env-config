@@ -198,7 +198,8 @@ ps1_timestamp() {
 export PS2="$PCyan"
 # export PS2="$On_ICyan"
 
-__prompt_command
+# __prompt_command
 
 # Add our prompt command after git-prompt commands.
 [[ ! $PROMPT_COMMAND =~ __prompt_command ]] && PROMPT_COMMAND+=';__prompt_command'
+PROMPT_COMMAND=$(sed -E 's/;+/;/g' <<<"$PROMPT_COMMAND")

@@ -1,0 +1,32 @@
+[Desktop Entry]
+# X-Action=New
+Name=FlatpakRef Install
+Type=Application
+Comment=Install a flatpak app
+TryExec=flatpak
+Exec=terminator -e "flatpak install %f"
+Terminal=false
+# Icon=/home/lucifer/.oh-my-zsh/zsh.png
+# StartupNotify=false
+# X-GNOME-SingleWindow=false
+# OnlyShowIn=GNOME;Unity;
+# Actions=New
+# StartupWMClass=zsh
+# Flatpak repository reference;
+# MimeType=application/vnd.flatpak.ref;Flatpak repository reference;
+MimeType=application/vnd.flatpak.ref;application/vnd.flatpak;application/vnd.flatpak.repo
+# Name[en_US]=ZSH-Terminal
+Icon=org.gnome.Shell.Extensions.GSConnect
+
+# [Desktop Action New]
+# Name=New Terminal
+# Exec=terminator -e "flatpak install %f"
+
+# gnome-terminal -- bash -i -c "flatpak install "$file"; echo 'Press Enter to exit'; read"
+
+# Install
+# cp -aP flatpakref-installer.desktop /home/dawsonmyers/.local/share/applications/
+# sudo -i
+# desktop-file-validate flatpakref-installer.desktop &&
+# desktop-file-install flatpakref-installer.desktop &&
+# update-desktop-database
