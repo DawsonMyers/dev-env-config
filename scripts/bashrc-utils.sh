@@ -314,7 +314,7 @@ typeof () {
 
     local type_signature #=$(declare -p "$1" 2>/dev/null)
     local var_name=$1
-    util::get_ref_var_name -v "var_name" $1
+    type util::get_ref_var_name &>/dev/null && util::get_ref_var_name -v "var_name" $1
     get_var_sig -v type_signature $var_name
     # echo type_signature "$type_signature"
     # evar type_signature

@@ -1,0 +1,25 @@
+<mtTheme>
+  <fileId>custom</fileId>
+  <themeId>dm-dark-april-21</themeId>
+  <name>dm-dark-april-21</name>
+  <editorColorsScheme>Rider Dark</editorColorsScheme>
+  <dark>true</dark>
+  <colors>
+    <color id="background" value="282828ff"/>
+    <color id="foreground" value="28d3d3ff"/>
+    <color id="text" value="1ccb9aff"/>
+    <color id="highlight" value="148083ff"/>
+    <color id="selectionBackground" value="444444ff"/>
+    <color id="selectionForeground" value="57ffffff"/>
+    <color id="button" value="317c79ff"/>
+    <color id="secondaryBackground" value="2a2929ff"/>
+    <color id="disabled" value="676767ff"/>
+    <color id="contrast" value="418a7cff"/>
+    <color id="tableSelected" value="383838ff"/>
+    <color id="secondBorder" value="575656ff"/>
+    <color id="treeSelection" value="30865bff"/>
+    <color id="notifications" value="161616ff"/>
+    <color id="accent" value="51a0a1ff"/>
+    <color id="excluded" value="323232ff"/>
+  </colors>
+</mtTheme>

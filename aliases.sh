@@ -142,6 +142,14 @@ alias gcl='git clean -xfd'
 alias gdiff='git diff --shortstat HEAD'
 alias glog='git log --graph --oneline --decorate'
 
+
+# Shows the number of of changes between head and n commits back
+gdiffn() {
+    local n=$1
+    echo "git diff --shortstat HEAD~${n} HEAD"
+    git diff --shortstat HEAD~${n} HEAD
+}
+
 get_myg_release() {
     echo $(cd ~/repos/Development && git describe --tags --abbrev=0 --match MYG* | sed -e 's_MYG/__g')
 }

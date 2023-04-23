@@ -53,6 +53,7 @@ echo "   => $NAUTILUS_SCRIPT_DIR"
 mkdir -p "$NAUTILUS_SCRIPT_DIR"
 chmod +x ./scripts/nautilus-scripts/*
 cp -f ./scripts/nautilus-scripts/* "$NAUTILUS_SCRIPT_DIR/"
+
 # cp -f "$DEV_ENV_DIR"/scripts/nautilus-scripts/* "${NAUTILUS_SCRIPT_DIR}/"
 
 # Show seconds on system clock.
