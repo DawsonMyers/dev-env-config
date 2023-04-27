@@ -1,4 +1,38 @@
 #!/bin/bash
+
+err_was_set=
+# export disable_debug_log_cmd='[[ $- =~ x ]] && debug_log_was_enabled=true && set +x'
+# export restore_debug_log_state_cmd='$disable_debug_log && set +x && debug_log_was_enabled='
+
+# disable_debug_log() { echo '[[ $- =~ x ]] && debug_log_was_enabled=true && set +x'; }
+# # disable_debug_log() { echo "$disable_debug_log_cmd"; }
+# restore_debug_log_state() { echo "$restore_debug_log_state_cmd"; }
+# export -f disable_debug_log
+# export -f restore_debug_log_state
+
+set -eE
+# set -x
+dev_err_handler() {
+    local lineno="$1"
+    local cmd="$2"
+    [[ ${BASH_SOURCE[*]} =~ git-prompt|bash-complete ]] && return
+    # local line="$1" file="$2" cmd="$3"
+    # echo "${BASH_COMMAND[@]}"
+    # echo "${BASH_LINENO[@]}"
+    R=$Red B=$Blue C=$Cyan G=$Green Y=$Yellow
+    echo -e "${R}ERROR: at ${B}${BASH_SOURCE[1]//$HOME/\~}:${G}${BASH_LINENO[1]}/$lineno${Y}::${FUNCNAME[1]:-main}() ${G}with cmd: ${C}${cmd}"
+    # echo "ERROR: at $line:$file with cmd: $cmd"
+    for ((i=2; i < ${#BASH_SOURCE[@]}; i++)); do
+        echo "       at ${BASH_SOURCE[i]}:${BASH_LINENO[i]}/$lineno in ${FUNCNAME[i]:-main}() with cmd: ${BASH_COMMAND[i]} "
+    done
+    # set +e
+
+    # trap - ERR
+}
+trap 'dev_err_handler $LINENO "$BASH_COMMAND"' ERR
+
+# trap 'set +ex' RETURN
+# trap 'dev_err_handler "$BASH_SOURCE" "$BASH_LINENO:$LINENO" "$BASH_COMMAND"' ERR
 # export DEV_CONFIG_DIR="$HOME/dev-env-config"
 export DEV_CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export MYG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)/Development"
@@ -87,6 +121,7 @@ resize_swap() {
     sudo chmod 600 /swapfile
     sudo mkswap /swapfile
     sudo swapon /swapfile
+    set +e
 }
 
 mkdir -p ~/.bash_completion
@@ -123,3 +158,5 @@ HISTFILESIZE=400000
 [[ ! $PROMPT_COMMAND =~ "history -a" ]] && PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ;} history -a"
 # Set history timestamp format
 # HISTTIMEFORMAT='%F %T '
+
+set +xe

@@ -1,6 +1,10 @@
 # All consts are prefixed with 'dec/DEC' to identify them as belonging to the Dev-Env-Config repo.
 # Regex to find color control codes: (\\\[)?(\\e|\\033)\[(\d+;)*\d+m
 # regex to add prefix to consts: (^[^D# }{]) and replace with DEC_$1
+debug_log_was_enabled=false
+[[ $- =~ 'x' ]] && debug_log_was_enabled=true && set +x
+# set +x
+# $(disable_debug_log)
 
 DEC_CHECK_MARK="\033[0;32m\xE2\x9C\x94\033[0m"
 DEC_EMOJI_CHECK_MARK=✔️
@@ -154,3 +158,8 @@ dec_purple() { echo -e "${DEC_Purple}$*${DEC_Off}"; }
 dec_cyan() { echo -e "${DEC_Cyan}$*${DEC_Off}"; }
 dec_white() { echo -e "${DEC_White}$*${DEC_Off}"; }
 dec_black() { echo -e "${DEC_Black}$*${DEC_Off}"; }
+
+result=$?
+
+[[ -v debug_log_was_enabled && $debug_log_was_enabled == true ]] && set -x
+return $result

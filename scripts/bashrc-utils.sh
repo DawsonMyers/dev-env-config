@@ -569,7 +569,7 @@ function ccat()
 install_font() {
     local installer="$DEV_CONFIG_DIR/submodules/nerd-fonts/install.sh"
 	if [[ -f $installer ]]; then
-		$installer $*
+		$installer "$*"
 	else
 		echo "ERROR: Nerd font installer not found at: $installer" 
 	fi

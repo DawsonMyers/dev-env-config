@@ -68,9 +68,10 @@ What if: Performing the operation "docker run -d --name mygeotab --publish 80:10
 
 
 sudo -i
-sed -iE 's/^[^#](.*Invoke-GeotabContainerMetadataSync.*$)/#\1/' /etc/crontab
+sed -iE 's/^[^#].*Invoke-GeotabContainerMetadataSync.*$)/#\1/' /etc/crontab
 # Can be re-enable with this:
 # sed -iE 's/^#+(.*Invoke-GeotabContainerMetadataSync.*$)/\1/' /etc/crontab
+# grep -E '(.*Invoke-GeotabContainerMetadataSync.*$)' /etc/crontab
 
 # new_image_url = <url at the end of AutoDeploy-MYG-Docker-Build-Project GitLab job>
 image_name=gcr.io/build-project/mygeotab:8.0.2561-620daaf4c639

@@ -149,17 +149,36 @@ gdiffn() {
     echo "git diff --shortstat HEAD~${n} HEAD"
     git diff --shortstat HEAD~${n} HEAD
 }
+gdiffhash() {
+    local n=$1
+    echo "git diff --shortstat $n HEAD"
+    git diff --shortstat $n HEAD
+}
+gdiffo() {
+    # Gets the diff between local and remote branch.
+    local cur_branch=$(git rev-parse --abbrev-ref HEAD)
+    git diff --shortstat origin/$cur_branch HEAD
+}
+
+get_myg_release_cwd() {
+    git describe --tags --abbrev=0 --match MYG* | sed -e 's_MYG/__g'
+}
 
 get_myg_release() {
+    [[ $1 = cwd ]] && git describe --tags --abbrev=0 --match MYG* | sed -e 's_MYG/__g' && return
     echo $(cd ~/repos/Development && git describe --tags --abbrev=0 --match MYG* | sed -e 's_MYG/__g')
 }
 
 gprr() {
+    local cwd=cwd
+    [[ $1 == cwd ]] && cwd=true && shift
     local version="$1"
-    [[ -z $version ]] && version=$(get_myg_release)
+
+    [[ -z $version ]] && version=$(get_myg_release_cwd)
+    # [[ -z $version ]] && version=$(get_myg_release $cwd)
     # [[ -z $version ]] && version=$(geo --raw-output dev release)
     [[ -z $version ]] && echo 'Error: no version specified' && return
-
+    echo pulling release $version
     # Add the .0 suffix to the version if it is missing (e.g. 8 => 8.0);
     [[ ! $version =~ \.0$ ]] && version+='.0'
     echo "git pull --rebase origin release/$version"
