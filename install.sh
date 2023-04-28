@@ -177,3 +177,18 @@ for conf_dir in ./include/.config/*; do
 	
 	ln -vs "$conf_dir" ~/.config/
 done
+
+
+echo "Installing argos gnome extension"
+ln -vis $DEV_CONFIG_DIR/include/.config/argos $HOME/.config/argos
+
+if [[ -f shell/zsh/zsh.desktop && -f shells/.zshrc ]]; then
+	echo "Installing zsh files"
+	ln -si $DEV_CONFIG_DIR/shells/.zshrc $HOME/
+	mkdir -p ~/.icons
+	cp res/terminal-icon.png ~/.icons/
+	chmod +x shell/zsh/zsh.desktop
+	sudo desktop-file-install zsh.desktop
+else
+	echo "ERROR: zsh files are missing."
+fi

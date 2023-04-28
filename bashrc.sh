@@ -29,7 +29,8 @@ dev_err_handler() {
 
     # trap - ERR
 }
-trap 'dev_err_handler $LINENO "$BASH_COMMAND"' ERR
+# Uncomment to enable error logging.
+# trap 'dev_err_handler $LINENO "$BASH_COMMAND"' ERR
 
 # trap 'set +ex' RETURN
 # trap 'dev_err_handler "$BASH_SOURCE" "$BASH_LINENO:$LINENO" "$BASH_COMMAND"' ERR
