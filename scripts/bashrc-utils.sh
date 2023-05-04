@@ -581,3 +581,58 @@ pathadd() {
         PATH="$1${PATH:+":$PATH"}"
     fi
 }
+
+build_all() {
+    ## or csproj
+    local sln=All.sln
+    local target=net7.0
+    local config=release
+    [[ $1 =~ -t|-f|--target|--framework ]] && target=$1 && shift
+    [[ -z $1 ]] && sln=$(geo get dev_repo_dir)/All.sln || sln="$1"
+
+    while [[ $1 =~ ^-+ ]]; do
+        case $1 in 
+            -t|-f|--target|--framework ) target=$1 ;;
+            -s|--sln|--solution ) sln=$1 ;;
+            -c|--conf* ) config=$1 ;;
+        esac
+        shift
+    done
+    dotnet publish -f $target -c $config $sln
+}
+
+build_net() {
+    (
+        cd ~/repos/Development || { echo MYG DIR NOT FOUND && exit 1; }
+        dotnet publish Customers/PepsiCo/CustomerImport/CustomerImport.csproj -c release -f net7.0
+        dotnet build -c release -f net7.0 Testers/HardwareTester.sln
+        dotnet publish Customers/PepsiCo/CustomerImport/CustomerImport.csproj -c release -f net6.0
+        dotnet build -c release -f net6.0 Testers/HardwareTester.sln
+    )
+    # wait
+}
+
+# usage:
+#  * find lines that include error or exception
+#       cat logs.txt | filter "error|exception"
+#  * exclude lines that include error or exception
+#       cat logs.txt | filter --invert "error|exception"
+#       cat logs.txt | filter --invert "error|exception"
+#  Or run the file directly:
+#       cat logs.txt | ./filter.sh "error|exception"
+filter() {
+    local invert=false
+    [[ $1 =~ -i|-v|--invert ]] && invert=true && shift
+    pattern="$1" 
+    IFS=$' '
+    # IFS=$'\n'
+    while read -r line; do
+        if grep -E "$pattern" <<<"$line" &>/dev/null; then
+            $invert && continue
+            echo "$line"
+        else
+            $invert && echo "$line"
+        fi
+        
+    done
+}

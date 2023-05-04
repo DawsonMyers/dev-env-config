@@ -121,6 +121,6 @@ prompt adam1
 
 
 #dev-env-config-start
-. "/home/dawsonmyers/repos/dev-env-config/shells/zsh/zshrc.sh"
+# . "/home/dawsonmyers/repos/dev-env-config/shells/zsh/zshrc.sh"
 #dev-env-config-end
 

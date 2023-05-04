@@ -159,6 +159,13 @@ dec_cyan() { echo -e "${DEC_Cyan}$*${DEC_Off}"; }
 dec_white() { echo -e "${DEC_White}$*${DEC_Off}"; }
 dec_black() { echo -e "${DEC_Black}$*${DEC_Off}"; }
 
+d-error() { dec_red      "[ERROR] $*"; }
+d-warn() { dec_yellow    "[WARN]  $*"; }
+d-status() { dec_cyan    "[STAT]  $*"; }
+d-info() { dec_green     "[INFO]  $*"; }
+d-debug() { dec_blue     "[DEBG]  $*"; }
+d-verbose() { dec_purple "[VERB]  $*"; }
+
 result=$?
 
 [[ -v debug_log_was_enabled && $debug_log_was_enabled == true ]] && set -x

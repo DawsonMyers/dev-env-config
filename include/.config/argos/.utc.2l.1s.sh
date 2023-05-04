@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+###### DISABLED BY PREPENDING '.' TO FILE NAME
 # https://github.com/p-e-w/argos
 DIR=$(dirname "$0")
 SCRIPT_PATH="$0"

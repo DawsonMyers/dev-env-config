@@ -1,0 +1,14 @@
+# Create swap in home directory so that it doesn't hog space in the (very small, only ~40GB) system partition.
+#if swap already exists: sudo swapoff 
+swapfile=/home/swapfile
+sudo fallocate -l 20G /home/swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo nano /etc/fstab
+#    => Change:  /swapfile swap swap defaults 0 0
+#    => To:      /swapfile/swapfile swap swap defaults 0 0
+
+# verify
+sudo swapon --show
+# OR
+sudo free -h
