@@ -192,3 +192,6 @@ if [[ -f shell/zsh/zsh.desktop && -f shells/.zshrc ]]; then
 else
 	echo "ERROR: zsh files are missing."
 fi
+
+
+# TODO Install .desktop files to /home/dawson/.local/share/applications/

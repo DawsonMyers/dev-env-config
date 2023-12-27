@@ -218,11 +218,17 @@ alias gaab='geo analyze -bas'
 # Run all analyzers, skip (-s) long running analyzers
 alias gaa='geo analyze -as'
 # alias gaa='geo analyze 0 1 2 3 4 5 6 7'
-alias gcd='geo cd geo'
 alias cdmyg='geo cd dev'
+alias cdm='geo cd dev'
 alias cddev='geo cd dev'
 alias dcd='geo cd dev'
 alias cdmyg='geo cd dev'
+alias gcd='geo cd geo'
+alias cdg='geo cd geo'
+alias cdgeo='geo cd geo'
+alias geocd='geo cd geo'
+alias geoc='geo cd geo'
+alias geod='geo cd geo'
 
 # C#
 alias csr='csharprepl'
